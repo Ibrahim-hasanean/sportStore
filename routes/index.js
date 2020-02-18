@@ -9,7 +9,6 @@ const validator = require("validator");
 require("dotenv").config();
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  console.log("host is :", req.get("host"));
   res.render("index");
 });
 router.post("/signup", async function(req, res, next) {
@@ -83,8 +82,38 @@ router.get(
     accessType: "offline"
   }),
   (req, res) => {
-    res.send("it works yahho");
+    console.log(req.user);
+    res.send("login success " + req.user.name);
+    //   res.redirect("/homepage");
   }
 );
+
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", {
+    scope: ["profile", "email"],
+    session: false,
+    prompt: "consent",
+    accessType: "offline"
+  })
+);
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/",
+    session: false,
+    prompt: "consent",
+    accessType: "offline"
+  }),
+  (req, res) => {
+    console.log(req.user);
+    res.send("login success " + req.user.name);
+    //   res.redirect("/homepage");
+  }
+);
+
+router.get("/homepage", (req, res) => {
+  res.send("homepage");
+});
 
 module.exports = router;

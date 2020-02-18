@@ -5,12 +5,13 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var app = express();
+const passport = require("passport");
 const validate = require("./middleware/validator");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 mongoose.connect(
-  "mongodb://localhost:27017/authetication-system",
+  "mongodb://localhost:27017/authSystem",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(passport.initialize());
 
 app.use("/", indexRouter);
 app.use("/users", validate, usersRouter);

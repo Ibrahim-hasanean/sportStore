@@ -1,15 +1,16 @@
-const googleStrategy = require("passport-google-oauth20").Strategy;
+const facebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
+
 const User = require("../models/user");
 passport.use(
-  new googleStrategy(
+  new facebookStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.FACBOOK_CALLBACK
     },
     async (accessToken, refreshToken, profile, cb) => {
-      let existUser = await User.findOne({ googleId: profile.id });
+      let existUser = await User.findOne({ facebookid: profile.id });
       console.log(profile._json);
       if (!existUser) {
         let newUser = await User.create({

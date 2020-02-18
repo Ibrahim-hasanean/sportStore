@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  name: String,
   email: {
     type: String
   },
@@ -14,7 +15,7 @@ const userSchema = new Schema({
 
 userSchema.pre("save", function(next) {
   let user = this;
-  user.password = bcrypt.hashSync(user.password, 10);
+  if (user.password) user.password = bcrypt.hashSync(user.password, 10);
   next();
 });
 

@@ -10,6 +10,7 @@ const validate = require("./middleware/validator");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
+/*
 mongoose.connect(
   "mongodb://localhost:27017/authSystem",
   {
@@ -19,7 +20,7 @@ mongoose.connect(
   () => {
     console.log("mongoose connect");
   }
-);
+);*/
 
 require("./config/googleAuth-setup");
 

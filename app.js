@@ -12,13 +12,14 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 
 mongoose.connect(
-  "mongodb://localhost:27017/authSystem",
+  process.env.DB_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
   },
-  () => {
-    console.log("mongoose connect");
+  error => {
+    if (error) console.log(error);
+    else console.log("mongoose connect");
   }
 );
 

@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get("/private", function(req, res, next) {
-  res.send("hello from private route");
+  console.log("user", req.body.user);
+  res.send("hello from private route " + req.body.user.name);
 });
 
 router.post("/logout", (req, res, next) => {

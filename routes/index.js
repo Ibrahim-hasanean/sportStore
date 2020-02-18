@@ -24,7 +24,8 @@ router.post("/signup", async function(req, res, next) {
   }
   let createUser = await User.create({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    name: req.body.name
   });
 
   res.status(200);
@@ -83,7 +84,13 @@ router.get(
     accessType: "offline"
   }),
   (req, res) => {
-    console.log(req.user);
+    let userToken = jwt.sign({ id: req.user._id }, process.env.JWT_KEY, {
+      expiresIn: "1h"
+    });
+    //set token in cookie
+    res.cookie("access_token", "Bearer " + userToken, {
+      expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
+    });
     res.send("login success " + req.user.name);
     //   res.redirect("/homepage");
   }
@@ -101,12 +108,15 @@ router.get(
     session: false
   }),
   (req, res) => {
+    let userToken = jwt.sign({ id: req.user._id }, process.env.JWT_KEY, {
+      expiresIn: "1h"
+    });
+    //set token in cookie
+    res.cookie("access_token", "Bearer " + userToken, {
+      expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
+    });
     res.send("it is work");
   }
 );
-
-router.get("/homepage", (req, res) => {
-  res.send("homepage");
-});
 
 module.exports = router;

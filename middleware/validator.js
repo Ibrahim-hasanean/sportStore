@@ -1,13 +1,14 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 
-function validator(req, res, next) {
+async function validator(req, res, next) {
   let token = String(req.cookies.access_token).split(" ")[1];
   console.log(token);
-  jwt.verify(token, process.env.JWT_KEY, (err, decode) => {
+  jwt.verify(token, process.env.JWT_KEY, async (err, decode) => {
     if (err)
       return res.json({ status: "error", message: err.message, data: null });
-    req.body.userId = decode.id;
+    let user = await User.findById(decode.id);
+    req.body.user = user;
     next();
   });
 }

@@ -8,6 +8,7 @@ const validator = require("validator");
 
 require("dotenv").config();
 /* GET home page. */
+require("../config/facebookAuth-setup.js");
 router.get("/", function(req, res, next) {
   res.render("index");
 });
@@ -91,24 +92,16 @@ router.get(
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
-    scope: ["profile", "email"],
-    session: false,
-    prompt: "consent",
-    accessType: "offline"
+    session: false
   })
 );
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
-    failureRedirect: "/",
-    session: false,
-    prompt: "consent",
-    accessType: "offline"
+    session: false
   }),
   (req, res) => {
-    console.log(req.user);
-    res.send("login success " + req.user.name);
-    //   res.redirect("/homepage");
+    res.send("it is work");
   }
 );
 

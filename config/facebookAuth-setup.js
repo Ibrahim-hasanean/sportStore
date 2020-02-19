@@ -16,7 +16,8 @@ passport.use(
       if (!existUser) {
         let newUser = await User.create({
           name: profile._json.name,
-          facebookid: profile.id
+          facebookid: profile.id,
+          email: profile._json.id
         });
         return cb(null, newUser);
       }

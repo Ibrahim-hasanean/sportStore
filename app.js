@@ -10,9 +10,12 @@ const validate = require("./middleware/validator");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
-
+/*{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  } */
 mongoose.connect(
-  process.env.DB_URL,
+  "mongodb+srv://ibrahim:authdb@cluster0-6qxcp.mongodb.net/test?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true

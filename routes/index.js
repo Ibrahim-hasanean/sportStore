@@ -115,6 +115,7 @@ router.get(
     res.cookie("access_token", "Bearer " + userToken, {
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
+    console.log(req);
     res.send("facebook auth succes" + req.user.name);
   }
 );

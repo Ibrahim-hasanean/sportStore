@@ -99,12 +99,14 @@ router.get(
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
+    scope: ["profile", "email"],
     session: false
   })
 );
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
+    scope: ["profile", "email"],
     session: false
   }),
   (req, res) => {

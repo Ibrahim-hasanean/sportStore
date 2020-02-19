@@ -13,7 +13,6 @@ router.get("/", function(req, res, next) {
   res.render("index");
 });
 router.post("/signup", async function(req, res, next) {
-  /*
   let user = await User.findOne({ email: req.body.email });
   if (user) {
     res.status(403);
@@ -32,11 +31,6 @@ router.post("/signup", async function(req, res, next) {
   res.status(200);
   return res.json({
     email: createUser.email
-  });*/
-  res.json({
-    email: req.body.email,
-    password: req.body.password,
-    name: req.body.name
   });
 });
 

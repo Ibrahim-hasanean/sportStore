@@ -13,13 +13,14 @@ async function validator(req, res, next) {
   });
 }*/
 
-function validator(req, res, next) {
+async function validator(req, res, next) {
   jwt.verify(
     req.headers["x-access-token"],
     process.env.JWT_KEY,
     (err, decode) => {
       if (err) res.json({ status: "error", message: err.message, data: null });
-      req.body.userId = decode.id;
+      let user = await User.findById(decode.id);
+      req.body.user = user;
       next();
     }
   );

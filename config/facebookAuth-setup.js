@@ -8,7 +8,7 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK,
 
-      profileFields: ["id", "emails", "name"]
+      profileFields: ["id", "emails", "displayName", "name"]
     },
     async (accessToken, refreshToken, profile, cb) => {
       let existUser = await User.findOne({ facebookId: profile.id });

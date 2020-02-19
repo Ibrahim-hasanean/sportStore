@@ -19,7 +19,7 @@ async function validator(req, res, next) {
     process.env.JWT_KEY,
     (err, decode) => {
       if (err) res.json({ status: "error", message: err.message, data: null });
-      let user = await User.findById(decode.id);
+      let user = await User.findById(decode.id);  
       req.body.user = user;
       next();
     }

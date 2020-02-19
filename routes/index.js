@@ -117,7 +117,8 @@ router.get(
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
     console.log(req);
-    res.send(req.user);
+    res.status(200);
+    res.send("face book login succecc");
   }
 );
 

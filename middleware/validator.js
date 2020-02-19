@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
-/*
+
 async function validator(req, res, next) {
   let token = String(req.cookies.access_token).split(" ")[1];
   console.log(token);
@@ -11,8 +11,8 @@ async function validator(req, res, next) {
     req.body.user = user;
     next();
   });
-}*/
-
+}
+/*
 async function validator(req, res, next) {
   jwt.verify(
     req.headers["x-access-token"],
@@ -24,6 +24,6 @@ async function validator(req, res, next) {
       next();
     }
   );
-}
+}*/
 
 module.exports = validator;

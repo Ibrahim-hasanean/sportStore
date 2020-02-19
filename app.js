@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
     useUnifiedTopology: true
   } */
 mongoose.connect(
-  "mongodb+srv://ibrahim:authdb@cluster0-6qxcp.mongodb.net/test?retryWrites=true&w=majority",
+  process.env.DB_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true

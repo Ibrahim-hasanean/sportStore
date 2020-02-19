@@ -52,6 +52,7 @@ router.post("/login", async (req, res, next) => {
   let userToken = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });
+  console.log(process.env.JWT_KEY);
   //set token in cookie
   res.cookie("access_token", "Bearer " + userToken, {
     expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours

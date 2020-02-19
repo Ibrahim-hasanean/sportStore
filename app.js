@@ -40,11 +40,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 
-app.use("/", cors(), indexRouter);
+app.use("/", indexRouter);
 app.get("/test", (req, res) => {
   res.send("test success");
 });
-app.use("/users", cors(), validate, usersRouter);
+app.use("/users", validate, usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -13,7 +13,8 @@ router.get("/", function(req, res, next) {
   res.render("index");
 });
 router.post("/signup", async function(req, res, next) {
-  let user = await User.findOne({ email: req.body.email });
+  let user = await User.findOne({ email: req.body.email }),
+    password = req.body.password;
   if (user) {
     res.status(403);
     return res.json({ status: 403, message: "email is hold" });
@@ -22,6 +23,26 @@ router.post("/signup", async function(req, res, next) {
     res.status(400);
     return res.json({ status: 400, message: "email is not valid" });
   }
+  if (!password) {
+    res.status(400);
+    return res.json({ status: 400, message: "password is required" });
+  } else {
+    if (String(password).length < 8) {
+      res.status(400);
+      return res.json({
+        status: 400,
+        message: "password must be 8 character"
+      });
+    }
+    if (!validator.isAlphanumeric(password)) {
+      res.status(400);
+      return res.json({
+        status: 400,
+        message: "password must contain numbers and letters"
+      });
+    }
+  }
+
   let createUser = await User.create({
     email: req.body.email,
     password: req.body.password,

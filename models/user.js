@@ -6,13 +6,15 @@ const userSchema = new Schema({
   name: { type: String, require: true },
 
   email: {
+    required: true,
     type: String
   },
   password: {
     type: String
   },
   googleId: { type: String },
-  facebookId: { type: String }
+  facebookId: { type: String },
+  address: String
 });
 
 userSchema.pre("save", function(next) {

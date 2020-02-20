@@ -15,7 +15,8 @@ passport.use(
         let newUser = await User.create({
           name: profile._json.name,
           googleId: profile.id,
-          email: profile._json.email
+          email: profile._json.email,
+          verified: true
         });
         return cb(null, newUser);
       }

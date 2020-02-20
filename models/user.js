@@ -14,7 +14,8 @@ const userSchema = new Schema({
   },
   googleId: { type: String },
   facebookId: { type: String },
-  address: String
+  address: String,
+  verified: { type: Boolean, default: false }
 });
 
 userSchema.pre("save", function(next) {

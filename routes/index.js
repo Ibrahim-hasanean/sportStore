@@ -5,7 +5,11 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const passport = require("passport");
 const validator = require("validator");
-
+const nodemailer = require("nodemailer");
+const crypto = require("crypto-random-string");
+const Code = require("../models/code");
+const verifyValidator = require("../middleware/VerifyValidator");
+const code = require("../models/code");
 require("dotenv").config();
 /* GET home page. */
 require("../config/facebookAuth-setup.js");
@@ -17,7 +21,7 @@ router.post("/signup", async function(req, res, next) {
     password = req.body.password;
   if (user) {
     res.status(403);
-    return res.json({ status: 403, message: "email is hold" });
+    return res.json({ status: 403, message: "email is already signed up" });
   }
   if (!validator.isEmail(req.body.email)) {
     res.status(400);
@@ -49,12 +53,51 @@ router.post("/signup", async function(req, res, next) {
     name: req.body.name
   });
 
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.TRANSPORT_EMAIL,
+      pass: process.env.TRANSPORT_PASS
+    }
+  });
+  let code = crypto({ length: 4 });
+  let userCode = Code.create({ code, userId: createUser._id });
+  transporter.sendMail(
+    {
+      from: process.env.TRANSPORT_EMAIL, // sender address
+      to: req.body.email, // list of receivers
+      subject: "email verificaton", // Subject line
+      text: "this is your verification code", // plain text body
+      html: ` code  <b>${code}</b>` // html body
+    },
+    (err, data) => {
+      if (err) console.log(err.message);
+    }
+  );
+  let userToken = jwt.sign({ userId: createUser._id }, process.env.JWT_KEY, {
+    expiresIn: "12h"
+  });
+  res.cookie("access_token", "Bearer " + userToken);
   res.status(200);
   return res.json({
     email: createUser.email
   });
 });
 
+router.post("/verify", verifyValidator, async (req, res, next) => {
+  let codeObject = await code.findOne({ userId: req.body.user._id });
+
+  if (req.body.code !== codeObject.code) {
+    res.status(400);
+    return res.json({ status: 400, message: "wrong verification" });
+  }
+
+  let updateUser = await User.findByIdAndUpdate(req.body.user._id, {
+    verified: true
+  });
+
+  return res.json({ status: 200, message: "verification success" });
+});
 router.post("/login", async (req, res, next) => {
   if (!validator.isEmail(req.body.email)) {
     res.status(400);
@@ -70,7 +113,7 @@ router.post("/login", async (req, res, next) => {
     res.status(400);
     return res.json({ status: "400", message: "wrong email/password" });
   }
-  let userToken = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
+  let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });
   //set token in cookie

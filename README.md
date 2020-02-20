@@ -2,7 +2,7 @@
 
 implement login/signup system  
 ##Api links
-Root link “get request” phttps://authentcation.herokuapp.com
+Root link “get request” https://authentcation.herokuapp.com
 
 Local login api : “post request” https://authentcation.herokuapp.com/login >> body must have email , password ,name
 

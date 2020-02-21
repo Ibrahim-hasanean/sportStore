@@ -16,6 +16,6 @@ Google login api :
 
 “ redirect to ” https://authentcation.herokuapp.com/google/auth
 
-verificaion route : 'post request' https://authentcation.herokuapp.com/verify >> must contain code in body and token in cookies
+verificaion route : 'post request' https://authentcation.herokuapp.com/verify >> must contain code in body and token in header as 'x-access-token' property
 
-Private route : “get request” https://authentcation.herokuapp.com/users/private >> must contain token in cookie with name “access-token” and email must be veified
+Private route : “get request” https://authentcation.herokuapp.com/users/private >> must contain token in header with name “x-access-token” and email must be veified

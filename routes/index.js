@@ -164,13 +164,14 @@ router.get(
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
-    session: false
+    session: false,
+    scope: "email"
   })
 );
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
-    scope: ["profile", "email"],
+    scope: "email",
     session: false
   }),
   (req, res) => {
@@ -181,10 +182,53 @@ router.get(
     res.cookie("access_token", "Bearer " + userToken, {
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
-    console.log(req);
     res.status(200);
     res.send("face book login succecc");
   }
 );
+
+router.post("/forgetpassword", async (req, res) => {
+  if (!req.body.email)
+    return res.json({ status: 404, message: "must provide email" });
+  let user = await User.findOne({ email: req.body.email });
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.TRANSPORT_EMAIL,
+      pass: process.env.TRANSPORT_PASS
+    }
+  });
+  let deletCode = await Code.findOneAndDelete({ userId: user._id }); //delete previous user code
+  let code = crypto({ length: 4 });
+  console.log(user);
+  let userCode = await Code.create({ code, userId: user._id });
+  transporter.sendMail(
+    {
+      from: process.env.TRANSPORT_EMAIL, // sender address
+      to: req.body.email, // list of receivers
+      subject: "email verificaton", // Subject line
+      text: "this is your verification code", // plain text body
+      html: ` code  <b>${code}</b>` // html body
+    },
+    (err, data) => {
+      if (err) console.log(err.message);
+      return res.json({ status: 200, message: "code is sent to your email" });
+    }
+  );
+});
+
+router.post("/confirmcode", async (req, res) => {
+  let codeObject = await code.findOne({ userId: req.body.user._id });
+  if (req.body.code !== codeObject.code) {
+    res.status(400);
+    return res.json({ status: 400, message: "wrong verification" });
+  }
+
+  let updateUser = await User.findByIdAndUpdate(req.body.user._id, {
+    verified: true
+  });
+
+  return res.json({ status: 200, message: "verification success" });
+});
 
 module.exports = router;

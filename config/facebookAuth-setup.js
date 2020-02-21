@@ -7,8 +7,7 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK,
-
-      profileFields: ["id", "emails", "displayName", "name"]
+      profileFields: ["id", "displayName", "email", "first_name"]
     },
     async (accessToken, refreshToken, profile, cb) => {
       let existUser = await User.findOne({ facebookId: profile.id });
@@ -18,7 +17,7 @@ passport.use(
         let newUser = await User.create({
           name: profile._json.name,
           facebookid: profile.id,
-          email: profile._json.id,
+          email: profile._json.email,
           verified: true
         });
         return cb(null, newUser);

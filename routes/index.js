@@ -10,6 +10,7 @@ const crypto = require("crypto-random-string");
 const Code = require("../models/code");
 const verifyValidator = require("../middleware/VerifyValidator");
 const code = require("../models/code");
+
 require("dotenv").config();
 /* GET home page. */
 require("../config/facebookAuth-setup.js");
@@ -156,8 +157,8 @@ router.get(
     res.cookie("access_token", "Bearer " + userToken, {
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
-    res.send("login success " + req.user.name);
-    //   res.redirect("/homepage");
+
+    res.redirect("localhost:3000/admin");
   }
 );
 
@@ -183,7 +184,8 @@ router.get(
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
     res.status(200);
-    res.send("face book login succecc");
+    //res.send("face book login succecc");
+    res.redirect("localhost:3000/admin");
   }
 );
 
@@ -218,17 +220,24 @@ router.post("/forgetpassword", async (req, res) => {
 });
 
 router.post("/confirmcode", async (req, res) => {
-  let codeObject = await code.findOne({ userId: req.body.user._id });
+  let user = await User.findOne({ email: req.body.email });
+  let codeObject = await code.findOne({ userId: user._id });
   if (req.body.code !== codeObject.code) {
     res.status(400);
     return res.json({ status: 400, message: "wrong verification" });
   }
 
-  let updateUser = await User.findByIdAndUpdate(req.body.user._id, {
-    verified: true
+  return res.json({ status: 200, message: "code is true" });
+});
+router.post("/newpassword", async (req, res) => {
+  const { email, inputCode, password } = req.body;
+  const user = await User.findOne({ email: email });
+  let newpassword = bcrypt.hashSync(password, 10);
+  console.log("password ", newpassword);
+  let updateUser = await User.findByIdAndUpdate(user._id, {
+    password: newpassword
   });
-
-  return res.json({ status: 200, message: "verification success" });
+  return res.json({ message: "password reset" });
 });
 
 module.exports = router;

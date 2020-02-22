@@ -18,6 +18,7 @@ router.get("/", function(req, res, next) {
   res.render("index");
 });
 router.post("/signup", async function(req, res, next) {
+  console.log(req.body.email);
   let user = await User.findOne({ email: req.body.email }),
     password = req.body.password;
   if (user) {

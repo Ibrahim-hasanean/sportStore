@@ -88,7 +88,7 @@ router.post("/signup", async function(req, res, next) {
 router.post("/verify", verifyValidator, async (req, res, next) => {
   let codeObject = await code.findOne({ userId: req.body.user._id });
   console.log(req.body.code);
-  console.log(codeObject.code);
+  console.log(req.body.email);
   if (req.body.code !== codeObject.code) {
     res.status(400);
     return res.json({ status: 400, message: "wrong verification" });
@@ -145,6 +145,7 @@ router.get(
   "/google/auth/callback",
   passport.authenticate("google", {
     failureRedirect: "/",
+    successRedirect: "localhost:3000/admin",
     session: false,
     prompt: "consent",
     accessType: "offline"
@@ -239,4 +240,7 @@ router.post("/newpassword", async (req, res) => {
   return res.json({ message: "password reset" });
 });
 
+router.get("/admin", (req, res) => {
+  res.send("facebook redirect success");
+});
 module.exports = router;

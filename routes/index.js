@@ -85,7 +85,7 @@ router.post("/signup", async function(req, res, next) {
   });
 });
 
-router.post("/verify", verifyValidator, async (req, res, next) => {
+router.post("/verify", async (req, res, next) => {
   let codeObject = await code.findOne({ userId: req.body.user._id });
   console.log(req.body);
   if (req.body.code !== codeObject.code) {

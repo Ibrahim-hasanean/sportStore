@@ -88,7 +88,8 @@ router.post("/signup", async function(req, res, next) {
 router.post("/verify", async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   let codeObject = await code.findOne({ userId: user._id });
-  console.log(req.body);
+  console.log(req.body.email);
+  console.log(req.body.code);
   if (req.body.code !== codeObject.code) {
     res.status(400);
     return res.json({ status: 400, message: "wrong verification" });

@@ -158,7 +158,7 @@ router.get(
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
 
-    res.redirect("localhost:3000/admin");
+    res.send("google login success");
   }
 );
 
@@ -184,8 +184,7 @@ router.get(
       expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
     });
     res.status(200);
-    //res.send("face book login succecc");
-    res.redirect("localhost:3000/admin");
+    res.send("face book login succecc");
   }
 );
 

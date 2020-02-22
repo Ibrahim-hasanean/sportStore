@@ -86,14 +86,15 @@ router.post("/signup", async function(req, res, next) {
 });
 
 router.post("/verify", async (req, res, next) => {
-  let codeObject = await code.findOne({ userId: req.body.user._id });
+  const user = await User.findOne({ email: req.body.email });
+  let codeObject = await code.findOne({ userId: user._id });
   console.log(req.body);
   if (req.body.code !== codeObject.code) {
     res.status(400);
     return res.json({ status: 400, message: "wrong verification" });
   }
 
-  let updateUser = await User.findByIdAndUpdate(req.body.user._id, {
+  let updateUser = await User.findByIdAndUpdate(user._id, {
     verified: true
   });
 

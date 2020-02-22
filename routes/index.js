@@ -76,14 +76,7 @@ router.post("/signup", async function(req, res, next) {
       if (err) console.log(err.message);
     }
   );
-  let userToken = jwt.sign({ userId: createUser._id }, process.env.JWT_KEY, {
-    expiresIn: "12h"
-  });
-  res.cookie("access_token", "Bearer " + userToken);
-  res.status(200);
-  return res.json({
-    email: createUser.email
-  });
+  res.json({ status: 200, message: "account created and code is sent" });
 });
 
 router.post("/verify", async (req, res, next) => {

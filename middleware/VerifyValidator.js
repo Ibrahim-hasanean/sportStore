@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 
 async function validator(req, res, next) {
+  console.log(req.body.email);
+  console.log(req.body.code);
   let token = String(req.cookies.access_token).split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, async (err, decode) => {
     if (err)

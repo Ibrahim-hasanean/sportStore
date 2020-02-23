@@ -22,8 +22,8 @@ router.post("/signup", async function(req, res, next) {
   let user = await User.findOne({ email: req.body.email }),
     password = req.body.password;
   if (user) {
-    res.status(403);
-    return res.json({ status: 403, message: "email is already signed up" });
+    res.status(409);
+    return res.json({ status: 409, message: "email is already signed up" });
   }
   if (!validator.isEmail(req.body.email)) {
     res.status(400);

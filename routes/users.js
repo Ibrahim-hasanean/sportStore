@@ -4,7 +4,11 @@ const code = require("../models/code");
 const User = require("../models/user");
 /* GET users listing. */
 router.get("/private", function(req, res, next) {
-  res.send("hello from private route " + req.body.user.name);
+  res.status(200);
+  res.json({
+    status: 200,
+    message: "hello from private route " + req.body.user.name
+  });
 });
 
 router.post("/logout", (req, res, next) => {

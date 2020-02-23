@@ -103,12 +103,12 @@ router.post("/login", async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
   if (!user) {
     res.status(403);
-    return res.json({ status: "403", message: "user not found" });
+    return res.json({ status: 403, message: "user not found" });
   }
   let isPass = bcrypt.compareSync(req.body.password, user.password);
   if (!isPass) {
     res.status(400);
-    return res.json({ status: "400", message: "wrong email/password" });
+    return res.json({ status: 400, message: "wrong email/password" });
   }
   let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
     expiresIn: "1h"
@@ -121,7 +121,7 @@ router.post("/login", async (req, res, next) => {
   console.log(process.env.JWT_KEY);
 
   return res.json({
-    status: "200",
+    status: 200,
     message: "authenticate success",
     token: userToken
   });

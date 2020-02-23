@@ -7,7 +7,9 @@ router.get("/private", function(req, res, next) {
   res.status(200);
   res.json({
     status: 200,
-    message: "hello from private route " + req.body.user.name
+    message: "hello from private route " + req.body.user.name,
+    email: req.body.user.email,
+    id: req.body.user._id
   });
 });
 

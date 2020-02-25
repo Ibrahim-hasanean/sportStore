@@ -30,20 +30,20 @@ router.post("/signup", async function(req, res, next) {
     return res.json({ status: 400, message: "email is not valid" });
   }
   if (!password) {
-    res.status(400);
-    return res.json({ status: 400, message: "password is required" });
+    res.status(401);
+    return res.json({ status: 401, message: "password is required" });
   } else {
     if (String(password).length < 8) {
-      res.status(400);
+      res.status(401);
       return res.json({
-        status: 400,
+        status: 401,
         message: "password must be 8 character"
       });
     }
     if (!validator.isAlphanumeric(password)) {
-      res.status(400);
+      res.status(401);
       return res.json({
-        status: 400,
+        status: 401,
         message: "password must contain numbers and letters"
       });
     }
@@ -60,7 +60,8 @@ router.post("/signup", async function(req, res, next) {
     auth: {
       user: process.env.TRANSPORT_EMAIL,
       pass: process.env.TRANSPORT_PASS
-    }
+    },
+    secure: true
   });
   let code = crypto({ length: 4 });
   let userCode = Code.create({ code, userId: createUser._id });
@@ -101,6 +102,7 @@ router.post("/login", async (req, res, next) => {
     return res.json({ status: 400, message: "email is not valid" });
   }
   let user = await User.findOne({ email: req.body.email });
+  console.log(user);
   if (!user) {
     res.status(403);
     return res.json({ status: 403, message: "user not found" });
@@ -112,10 +114,6 @@ router.post("/login", async (req, res, next) => {
   }
   let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
     expiresIn: "1h"
-  });
-  //set token in cookie
-  res.cookie("access_token", "Bearer " + userToken, {
-    expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
   });
   res.status(200);
   console.log(process.env.JWT_KEY);

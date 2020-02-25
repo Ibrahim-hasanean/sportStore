@@ -32,6 +32,7 @@ async function validator(req, res, next) {
     async (err, decode) => {
       if (err) next(err);
       let user = await User.findById(decode.userId);
+      console.log(user);
       if (!user) {
         res.status(400);
         return res.json({ status: 400, message: "must sign up" });

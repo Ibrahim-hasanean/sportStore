@@ -121,7 +121,8 @@ router.post("/login", async (req, res, next) => {
   return res.json({
     status: 200,
     message: "authenticate success",
-    token: userToken
+    token: userToken,
+    verified: user.verified
   });
 });
 

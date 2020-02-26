@@ -128,7 +128,7 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/facebooklogin", async (req, res, next) => {
   let userData = req.body.userData;
-  console.log("UserDAta: ", userData);
+  console.log(req.body);
   let ExistUser = await User.find({ email: userData.email });
   if (ExistUser.length > 0) {
     console.log("user exist: ", ExistUser);

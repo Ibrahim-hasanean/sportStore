@@ -128,10 +128,10 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/facebooklogin", async (req, res, next) => {
   let userData = req.body.userData;
-  console.log(userData);
+  console.log("UserDAta: ", userData);
   let ExistUser = await User.find({ email: userData.email });
-  if (ExistUser) {
-    console.log(ExistUser);
+  if (ExistUser.length > 0) {
+    console.log("user exist: ", ExistUser);
     let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });

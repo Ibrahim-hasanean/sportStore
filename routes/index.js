@@ -126,6 +126,17 @@ router.post("/login", async (req, res, next) => {
   });
 });
 
+router.post("/facebooklogin", (req, res, next) => {
+  let userData = req.body.userData;
+  res.send("facebook login suceess ");
+});
+
+router.post("/googlelogin", (req, res, next) => {
+  let userData = req.body.userData;
+  res.send("facebook login suceess ");
+});
+
+/*
 router.get(
   "/google/auth",
   passport.authenticate("google", {
@@ -181,7 +192,7 @@ router.get(
     res.status(200);
     res.send("face book login succecc");
   }
-);
+);*/
 
 router.post("/forgetpassword", async (req, res) => {
   if (!req.body.email)

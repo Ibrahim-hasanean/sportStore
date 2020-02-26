@@ -10,11 +10,11 @@ Sign up api : “post request” https://authentcation.herokuapp.com/signup >>>>
 
 Facebook login api :
 
-“ redirect to” https://authentcation.herokuapp.com/facebook
+“send data to link as userData” https://authentcation.herokuapp.com/facebooklogin
 
 Google login api :
 
-“ redirect to ” https://authentcation.herokuapp.com/google/auth
+“ send data to link as userData ” https://authentcation.herokuapp.com/googlelogin
 
 verificaion route : 'post request' https://authentcation.herokuapp.com/verify >> must contain code in body and token in header as 'x-access-token' property
 
@@ -22,8 +22,8 @@ Private route : “get request” https://authentcation.herokuapp.com/users/priv
 
 forget password
 
-    send user email:  https://authentcation.herokuapp.com/forgetpassword >> will send code for user email
+- send user email: https://authentcation.herokuapp.com/forgetpassword >> will send code for user email
 
-    send user code:   https://authentcation.herokuapp.com/confirmcode   return if code is true or not
+- send user code: https://authentcation.herokuapp.com/confirmcode return if code is true or not
 
-    send user email and new password : https://authentcation.herokuapp.com/newpassword  return message is reset
+- send user email and new password : https://authentcation.herokuapp.com/newpassword return message is reset

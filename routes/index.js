@@ -157,7 +157,8 @@ router.post("/googlelogin", async (req, res, next) => {
   let newUser = await User.create({
     name: userData.name,
     email: userData.email,
-    facebookId: userData.id
+    facebookId: userData.id,
+    verified: true
   });
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"

@@ -140,9 +140,25 @@ router.post("/facebooklogin", (req, res, next) => {
   });
 });
 
-router.post("/googlelogin", (req, res, next) => {
+router.post("/googlelogin", async (req, res, next) => {
   let userData = req.body.userData;
   console.log(userData);
+  let ExistUser = await User.find({ email: userData.email });
+  if (ExistUser) {
+    let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
+      expiresIn: "1h"
+    });
+    return res.json({
+      status: 200,
+      message: "facebook login success",
+      token: userToken
+    });
+  }
+  let newUser = await User.create({
+    name: userData.name,
+    email: userData.email,
+    facebookId: userData.id
+  });
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });
@@ -215,6 +231,10 @@ router.post("/forgetpassword", async (req, res) => {
   if (!req.body.email)
     return res.json({ status: 404, message: "must provide email" });
   let user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return res
+      .status(400)
+      .json({ status: 400, message: "email is not sing up" });
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {

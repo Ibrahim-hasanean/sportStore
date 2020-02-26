@@ -126,7 +126,7 @@ router.post("/login", async (req, res, next) => {
   });
 });
 
-router.post("/facebooklogin", (req, res, next) => {
+router.post("/facebooklogin", async (req, res, next) => {
   let userData = req.body.userData;
   console.log(userData);
   let ExistUser = await User.find({ email: userData.email });

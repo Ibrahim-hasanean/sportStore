@@ -128,6 +128,8 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/facebooklogin", (req, res, next) => {
   let userData = req.body.userData;
+  console.log(userData);
+
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });
@@ -140,6 +142,7 @@ router.post("/facebooklogin", (req, res, next) => {
 
 router.post("/googlelogin", (req, res, next) => {
   let userData = req.body.userData;
+  console.log(userData);
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });

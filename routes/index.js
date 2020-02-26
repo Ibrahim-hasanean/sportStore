@@ -129,7 +129,25 @@ router.post("/login", async (req, res, next) => {
 router.post("/facebooklogin", (req, res, next) => {
   let userData = req.body.userData;
   console.log(userData);
-
+  let ExistUser = await User.find({ email: userData.email });
+  if (ExistUser) {
+    console.log(ExistUser);
+    let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
+      expiresIn: "1h"
+    });
+    return res.json({
+      status: 200,
+      message: "facebook login success",
+      token: userToken
+    });
+  }
+  let newUser = await User.create({
+    name: userData.name,
+    email: userData.email,
+    facebookId: userData.id,
+    verified: true
+  });
+  console.log(newUser);
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });

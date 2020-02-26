@@ -128,12 +128,26 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/facebooklogin", (req, res, next) => {
   let userData = req.body.userData;
-  res.send("facebook login suceess ");
+  let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
+    expiresIn: "1h"
+  });
+  res.json({
+    status: 200,
+    message: "facebook login success",
+    token: userToken
+  });
 });
 
 router.post("/googlelogin", (req, res, next) => {
   let userData = req.body.userData;
-  res.send("facebook login suceess ");
+  let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
+    expiresIn: "1h"
+  });
+  res.json({
+    status: 200,
+    message: "facebook login success",
+    token: userToken
+  });
 });
 
 /*

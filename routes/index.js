@@ -145,6 +145,7 @@ router.post("/googlelogin", async (req, res, next) => {
   console.log(userData);
   let ExistUser = await User.find({ email: userData.email });
   if (ExistUser) {
+    console.log(ExistUser);
     let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });
@@ -160,6 +161,7 @@ router.post("/googlelogin", async (req, res, next) => {
     facebookId: userData.id,
     verified: true
   });
+  console.log(newUser);
   let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
     expiresIn: "1h"
   });
@@ -275,6 +277,10 @@ router.post("/confirmcode", async (req, res) => {
 router.post("/newpassword", async (req, res) => {
   const { email, inputCode, password } = req.body;
   const user = await User.findOne({ email: email });
+  if (!newpassword)
+    return res
+      .status(400)
+      .json({ status: 400, message: "password must be 8 character" });
   let newpassword = bcrypt.hashSync(password, 10);
   console.log("password ", newpassword);
   let updateUser = await User.findByIdAndUpdate(user._id, {

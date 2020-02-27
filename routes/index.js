@@ -295,11 +295,12 @@ router.post("/confirmcode", async (req, res) => {
 router.post("/newpassword", async (req, res) => {
   const { email, inputCode, password } = req.body;
   const user = await User.findOne({ email: email });
+  let newpassword = bcrypt.hashSync(password, 10);
   if (!newpassword)
     return res
       .status(400)
       .json({ status: 400, message: "password must be 8 character" });
-  let newpassword = bcrypt.hashSync(password, 10);
+
   console.log("password ", newpassword);
   let updateUser = await User.findByIdAndUpdate(user._id, {
     password: newpassword

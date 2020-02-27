@@ -293,8 +293,19 @@ router.post("/confirmcode", async (req, res) => {
   return res.json({ status: 200, message: "code is true" });
 });
 router.post("/newpassword", async (req, res) => {
-  const { email, inputCode, password } = req.body;
+  const { email, code, password } = req.body;
+  if (!code)
+    return res.status(400).json({ status: 400, message: "code is required" });
+  let codeExist = await Code.findOne({ code });
+  if (!codeExist)
+    return res.status(400).json({ status: 400, message: "code  not found " });
   const user = await User.findOne({ email: email });
+  console.log(codeExist.userId);
+  console.log(user._id);
+  if (!codeExist.userId == user._id)
+    return res
+      .status(400)
+      .json({ status: 400, message: "code is not for this email" });
   let newpassword = bcrypt.hashSync(password, 10);
   if (!newpassword)
     return res

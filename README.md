@@ -26,4 +26,4 @@ forget password
 
 - send user code: https://authentcation.herokuapp.com/confirmcode return if code is true or not
 
-- send user email and new password : https://authentcation.herokuapp.com/newpassword return message is reset
+- send user email , new password and code which is sent : https://authentcation.herokuapp.com/newpassword return message is reset

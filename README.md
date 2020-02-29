@@ -4,9 +4,10 @@ implement login/signup system
 ##Api links
 Root link “get request” https://authentcation.herokuapp.com
 
-Local login api : “post request” https://authentcation.herokuapp.com/login >> body must have email , password ,name
-
-Sign up api : “post request” https://authentcation.herokuapp.com/signup >>>> body must have email , password ,name
+Local login api : “post request body must have email , password ,name” https://authentcation.herokuapp.com/login return
+success : {status: 200,message: "authenticate success",token: userToken,verified: user.verified}
+failed :
+Sign up api : “post request body must have email , password” https://authentcation.herokuapp.com/signup { status: 200, message: "account created and code is sent" }
 
 Facebook login api :
 

@@ -3,8 +3,13 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   facebookLogin: async (req, res, next) => {
     let userData = req.body.userData;
-    let ExistUser = await User.find({ email: userData.email });
-    if (ExistUser.length > 0) {
+    let ExistUser = await User.findOne({ email: userData.email });
+    if (ExistUser.password)
+      return res.status(409).json({
+        status: 409,
+        message: "you already signed up using local signed up"
+      });
+    if (ExistUser.length) {
       let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
         expiresIn: "1h"
       });
@@ -31,7 +36,12 @@ module.exports = {
   },
   googleLogin: async (req, res, next) => {
     let userData = req.body.userData;
-    let ExistUser = await User.find({ email: userData.email });
+    let ExistUser = await User.findOne({ email: userData.email });
+    if (ExistUser.password)
+      return res.status(409).json({
+        status: 409,
+        message: "you already signed up using local signed up"
+      });
     if (ExistUser) {
       let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
         expiresIn: "1h"

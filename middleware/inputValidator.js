@@ -5,6 +5,16 @@ module.exports = async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email }),
     password = req.body.password;
   if (user) {
+    if (user.facebookId)
+      return res.status(409).json({
+        status: 409,
+        message: "email is already signed up using facebook authentication"
+      });
+    if (user.googleId)
+      return res.status(409).json({
+        status: 409,
+        message: "email is already signed up using google authentication"
+      });
     res.status(409);
     return res.json({ status: 409, message: "email is already signed up" });
   }

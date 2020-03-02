@@ -27,7 +27,6 @@ module.exports = {
       res.status(400);
       return res.json({ status: 400, message: "wrong verification" });
     }
-
     return res.json({ status: 200, message: "code is true" });
   },
   newPassword: async (req, res) => {

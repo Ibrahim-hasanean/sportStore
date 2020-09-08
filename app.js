@@ -9,7 +9,7 @@ const validate = require("./middleware/validator");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 mongoose.connect(
-  "mongodb://localhost:27017/sportStore",
+  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.qnafb.mongodb.net/sport-store?retryWrites=true&w=majority`,
   {useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true

@@ -17,12 +17,11 @@ module.exports = {
   },
   verify: async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
-    let codeObject = await code.findOne({ userId: user._id });
-    if (req.body.code !== codeObject.code) {
+    let userCode = await code.findOne({ userId: user._id });
+    if (req.body.code !== userCode.code) {
       res.status(400);
       return res.json({ status: 400, message: "wrong verification" });
     }
-
     let updateUser = await User.findByIdAndUpdate(user._id, {
       verified: true
     });
@@ -47,10 +46,9 @@ module.exports = {
     let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });
-    res.status(200);
-    console.log(process.env.JWT_KEY);
+    console.log(process.env.JWT_KEY);   
 
-    return res.json({
+    return res.status(200).json({
       status: 200,
       message: "authenticate success",
       token: userToken,

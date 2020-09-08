@@ -25,7 +25,7 @@ module.exports = {
       facebookId: userData.id,
       verified: true
     });
-    let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
+    let userToken = jwt.sign({ userId: newUser._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });
     res.json({
@@ -59,7 +59,7 @@ module.exports = {
       verified: true
     });
     console.log(newUser);
-    let userToken = jwt.sign({ userId: "asdasd" }, process.env.JWT_KEY, {
+    let userToken = jwt.sign({ userId: newUser._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });
     res.json({

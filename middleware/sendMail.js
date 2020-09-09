@@ -6,7 +6,7 @@ require("dotenv").config();
 module.exports = async (to, subject) => {
   let code = createCode({ length: 4 });
   let transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: "Gmail",    
     auth: {
       user: process.env.TRANSPORT_EMAIL,
       pass: process.env.TRANSPORT_PASS

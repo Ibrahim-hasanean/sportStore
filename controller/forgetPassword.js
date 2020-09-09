@@ -34,7 +34,17 @@ module.exports = {
   newPassword: async (req, res) => {
     const { email, password } = req.body;       
     const user = await User.findOne({ email: email });
+    if(!user){
+      return res
+      .status(404)
+      .json({ status: 404, message: "user not found" });
+    }
     let userCode = await Code.findOne({userId:user._id});
+    if(!userCode){
+      return res
+      .status(400)
+      .json({ status: 400, message: "code did not send" });
+    }
     if(!userCode.confirmed){
       return res
       .status(400)

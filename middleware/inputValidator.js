@@ -32,14 +32,7 @@ module.exports = async (req, res, next) => {
         status: 401,
         message: "password must be 8 character"
       });
-    }
-    if (!validator.isAlphanumeric(password)) {
-      res.status(401);
-      return res.json({
-        status: 401,
-        message: "password must contain numbers and letters"
-      });
-    }
+    }    
   }
   next();
 };

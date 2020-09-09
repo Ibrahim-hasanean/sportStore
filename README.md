@@ -4,12 +4,15 @@ implement login/signup system
 ##Api links
 Root link “get request” https://sportstore1.herokuapp.com
 
-Local login api : “post request body must have: body:{email , password}” https://sportstore1.herokuapp.com/api/v1/login return
+Local login api : “post request body must have: body:{email , password}” https://sportstore1.herokuapp.com/api/v1/login 
+return
 success : {status: 200,message: "authenticate success",token: userToken,verified: user.verified}
 failed :
 
 
-Sign up api : “post request body must have: body{email , password,name}” https://sportstore1.herokuapp.com/api/v1/signup { status: 200, message: "account created and code is sent" }
+Sign up api : “post request body must have: body{email , password,name}” https://sportstore1.herokuapp.com/api/v1/signup 
+return
+{ status: 200, message: "account created and code is sent" }
 
 Facebook login api :
 

@@ -30,6 +30,6 @@ forget password
 
 - send user email: https://sportstore1.herokuapp.com/api/v1/forgetpassword >> will send code for user email
 
-- send user code: https://sportstore1.herokuapp.com/api/v1/confirmcode return if code is true or not
+- send user email, code: https://sportstore1.herokuapp.com/api/v1/confirmcode return if code is true or not
 
-- send user email , new password and code which is sent : https://sportstore1.herokuapp.com/api/v1/newpassword return message is reset
+- send user email , new password which is sent : https://sportstore1.herokuapp.com/api/v1/newpassword return message is reset

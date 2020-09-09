@@ -27,25 +27,28 @@ module.exports = {
       res.status(400);
       return res.json({ status: 400, message: "wrong verification" });
     }
+    codeObject.confirmed=true;
+    await codeObject.save();
     return res.json({ status: 200, message: "code is true" });
   },
   newPassword: async (req, res) => {
-    const { email, code, password } = req.body;
-    if (!code)
-      return res.status(400).json({ status: 400, message: "code is required" });
-    let codeExist = await Code.findOne({ code });
-    if (!codeExist)
-      return res.status(400).json({ status: 400, message: "code  not found " });
+    const { email, password } = req.body;       
     const user = await User.findOne({ email: email });
-    if (!codeExist.userId == user._id)
+    let userCode = await Code.findOne({userId:user._id});
+    if(!userCode.confirmed){
       return res
-        .status(400)
-        .json({ status: 400, message: "code is not for this email" });
-    let newpassword = bcrypt.hashSync(password, 10);
-    if (!newpassword)
+      .status(400)
+      .json({ status: 400, message: "you must confirm code first" });
+    }
+    if(!password)return res
+    .status(400)
+    .json({ status: 400, message: "password must provided" });
+    if (!password.length == 8)
       return res
         .status(400)
         .json({ status: 400, message: "password must be 8 character" });
+    let newpassword = bcrypt.hashSync(password, 10);
+    
     let updateUser = await User.findByIdAndUpdate(user._id, {
       password: newpassword
     });

@@ -43,6 +43,8 @@ module.exports = {
   googleLogin: async (req, res, next) => {
     let {id_token} = req.body
     console.log(id_token);
+    let googleAuth = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${id_token}`)     
+    let userData = googleAuth.data;  
     let ExistUser = await User.findOne({ email: userData.email });
     if(ExistUser){
     if (ExistUser.password)
@@ -56,7 +58,7 @@ module.exports = {
       });
       return res.json({
         status: 200,
-        message: "facebook login success",
+        message: "google login success",
         token: userToken
       });
     }
@@ -64,7 +66,7 @@ module.exports = {
     let newUser = await User.create({
       name: userData.name,
       email: userData.email,
-      facebookId: userData.id,
+      googleId: userData.kid,
       verified: true
     });
     console.log(newUser);
@@ -73,7 +75,7 @@ module.exports = {
     });
     res.json({
       status: 200,
-      message: "facebook login success",
+      message: "google login success",
       token: userToken
     });
   }

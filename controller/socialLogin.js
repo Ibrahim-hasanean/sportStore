@@ -2,6 +2,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { get } = require("mongoose");
 let axios = require("axios");
+const { exists } = require("../models/user");
 module.exports = {
   facebookLogin: async (req, res, next) => {
     let {accessToken} = req.body;    
@@ -22,7 +23,9 @@ module.exports = {
       return res.json({
         status: 200,
         message: "facebook login success",
-        token: userToken
+        token: userToken,
+        email:ExistUser.email,
+        name:ExistUser.name
       });    
   }
     let newUser = await User.create({
@@ -37,7 +40,9 @@ module.exports = {
     res.json({
       status: 200,
       message: "facebook login success",
-      token: userToken
+      token: userToken,
+      email:newUser.email,
+      name:newUser.name
     });
   },
   googleLogin: async (req, res, next) => {
@@ -59,7 +64,9 @@ module.exports = {
       return res.json({
         status: 200,
         message: "google login success",
-        token: userToken
+        token: userToken,
+        email:ExistUser.email,
+        name:ExistUser.name
       });
     }
   }
@@ -76,7 +83,9 @@ module.exports = {
     res.json({
       status: 200,
       message: "google login success",
-      token: userToken
+      token: userToken,
+      email:newUser.email,
+      name:newUser.name
     });
   }
 };

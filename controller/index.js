@@ -12,8 +12,10 @@ module.exports = {
       name: req.body.name
     });
     let sendCode = await sendMail(createUser, "email verification");
-
-    res.json({ status: 200, message: "account created and code is sent" });
+    let userToken = jwt.sign({ userId: createUser._id }, process.env.JWT_KEY, {
+      expiresIn: "1h"
+    });
+    res.json({ status: 200, message: "account created and code is sent" , email:createUser.email, name:createUser.name , token:userToken  });
   },
   verify: async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
@@ -47,12 +49,13 @@ module.exports = {
       expiresIn: "1h"
     });
     console.log(process.env.JWT_KEY);   
-
     return res.status(200).json({
       status: 200,
       message: "authenticate success",
       token: userToken,
-      verified: user.verified
+      verified: user.verified,
+      name:user.name,
+      email:user.email
     });
   }
 };

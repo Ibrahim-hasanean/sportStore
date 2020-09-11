@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   facebookLogin: async (req, res, next) => {
     let userData = req.body.userData;
-    console.log(userData);
+    console.log("access token: ",userData);
+    console.log("userId: ",req.body.userId);
     let ExistUser = await User.findOne({ email: userData.email });
     if(ExistUser){
     if (ExistUser.password)

@@ -41,8 +41,8 @@ module.exports = {
     });
   },
   googleLogin: async (req, res, next) => {
-    let userData = req.body.userData;
-    console.log(userData);
+    let {id_token} = req.body
+    console.log(id_token);
     let ExistUser = await User.findOne({ email: userData.email });
     if(ExistUser){
     if (ExistUser.password)

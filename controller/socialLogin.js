@@ -1,10 +1,13 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const { get } = require("mongoose");
+let axios = require("axios");
 module.exports = {
   facebookLogin: async (req, res, next) => {
-    let userData = req.body.userData;
-    console.log("access token: ",userData);
-    console.log("userId: ",req.body.userId);
+    let {accessToken} = req.body;    
+    let facebookAuth = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,email,name,gender,picture`)
+    console.log(facebookAuth.data);
+    let userData = facebookAuth.data;    
     let ExistUser = await User.findOne({ email: userData.email });
     if(ExistUser){
     if (ExistUser.password)
@@ -12,7 +15,7 @@ module.exports = {
         status: 409,
         message: "you already signed up using local signed up"
       });
-    if (ExistUser.length) {
+    
       let userToken = jwt.sign({ userId: ExistUser._id }, process.env.JWT_KEY, {
         expiresIn: "1h"
       });
@@ -20,8 +23,7 @@ module.exports = {
         status: 200,
         message: "facebook login success",
         token: userToken
-      });
-    }
+      });    
   }
     let newUser = await User.create({
       name: userData.name,

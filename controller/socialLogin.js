@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   facebookLogin: async (req, res, next) => {
     let userData = req.body.userData;
+    console.log(userData);
     let ExistUser = await User.findOne({ email: userData.email });
+    if(ExistUser){
     if (ExistUser.password)
       return res.status(409).json({
         status: 409,
@@ -19,6 +21,7 @@ module.exports = {
         token: userToken
       });
     }
+  }
     let newUser = await User.create({
       name: userData.name,
       email: userData.email,
@@ -36,7 +39,9 @@ module.exports = {
   },
   googleLogin: async (req, res, next) => {
     let userData = req.body.userData;
+    console.log(userData);
     let ExistUser = await User.findOne({ email: userData.email });
+    if(ExistUser){
     if (ExistUser.password)
       return res.status(409).json({
         status: 409,
@@ -52,6 +57,7 @@ module.exports = {
         token: userToken
       });
     }
+  }
     let newUser = await User.create({
       name: userData.name,
       email: userData.email,

@@ -19,7 +19,7 @@ mongoose.connect(
     else console.log("mongoose connect");
   }
 );
-app.use(cors({origin:true}));
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

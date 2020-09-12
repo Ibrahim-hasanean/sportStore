@@ -7,7 +7,7 @@ var app = express();
 const cors = require("cors");
 const validate = require("./middleware/validator");
 const mongoose = require("mongoose");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.qnafb.mongodb.net/sport-store?retryWrites=true&w=majority`,
   {useCreateIndex: true,
@@ -18,12 +18,8 @@ mongoose.connect(
     if (error) console.log(error);
     else console.log("mongoose connect");
   }
-);
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+)
+
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());

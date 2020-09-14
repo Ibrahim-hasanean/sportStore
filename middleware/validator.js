@@ -23,6 +23,8 @@ async function validator(req, res, next) {
 }
 */
 async function validator(req, res, next) {
+  console.log(req.headers["x-access-token"])
+
   if (!req.headers["x-access-token"])
     return res.json({ status: 400, message: "token must be provided" });
 
@@ -36,11 +38,11 @@ async function validator(req, res, next) {
       if (!user) {
         res.status(400);
         return res.json({ status: 400, message: "must sign up" });
-      }
-      if (!user.verified) {
-        res.status(400);
-        return res.json({ status: 400, message: "email is not verified" });
-      }
+      } 
+      // if (!user.verified) {
+      //   res.status(400);
+      //   return res.json({ status: 400, message: "email is not verified" });
+      // }
 
       if (!user) return res.json({ status: 400, message: "user not found" });
       req.body.user = user;

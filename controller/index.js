@@ -32,18 +32,19 @@ module.exports = {
   },
   login: async (req, res, next) => {
     if (!validator.isEmail(req.body.email)) {
-      res.status(400);
-      return res.json({ status: 400, message: "email is not valid" });
+      
+      return res.status(400).json({ status: 400, message: "email is not valid" });
     }
     let user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(403);
-      return res.json({ status: 403, message: "user not found" });
+      
+      return res.status(403).json({ status: 403, message: "user not found" });
     }
     let isPass = bcrypt.compareSync(req.body.password, user.password);
     if (!isPass) {
-      res.status(400);
-      return res.json({ status: 400, message: "wrong email/password" });
+      console.log("wrong password")
+      //return res.status(400).json({ status: 400, message: "wrong password" });
+      return res.status(401).send("wrong password");
     }
     let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
       expiresIn: "1h"

@@ -9,7 +9,7 @@ module.exports = async (to, subject) => {
   sgMail.setApiKey(process.env.SEND_GRID_KEY)  
   const msg = {
     to,
-    from: "ibrahim19970408@gmail.com",
+    from: process.env.EMAIL,
     subject,
     text: `your code`,
     html: `<strong>${code}</strong>`,

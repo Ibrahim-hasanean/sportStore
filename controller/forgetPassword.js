@@ -5,6 +5,7 @@ const Code = require("../models/code");
 const bcrypt = require("bcrypt");
 module.exports = {
   forgetPassword: async (req, res) => {
+    console.log("forget password")
     if (!req.body.email)
       return res.json({ status: 404, message: "must provide email" });
     let user = await User.findOne({ email: req.body.email });
@@ -25,7 +26,7 @@ module.exports = {
     let codeObject = await Code.findOne({ userId: user._id });
     if (req.body.code !== codeObject.code) {
       res.status(400);
-      return res.json({ status: 400, message: "wrong verification" });
+      return res.json({ status: 400, message: "wrong code" });
     }
     codeObject.confirmed=true;
     await codeObject.save();

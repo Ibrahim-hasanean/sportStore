@@ -43,8 +43,8 @@ module.exports = {
     let isPass = bcrypt.compareSync(req.body.password, user.password);
     if (!isPass) {
       console.log("wrong password")
-      //return res.status(400).json({ status: 400, message: "wrong password" });
-      return res.status(401).send("wrong password");
+      return res.status(400).json({ status: 400, message: "wrong password" });
+      //return res.status(401).s("wrong password");
     }
     let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
       expiresIn: "1h"

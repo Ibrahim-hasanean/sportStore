@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
+const favoritSchema = new Schema({itemId:String})
 const userSchema = new Schema({
   name: { type: String, require: true },
-
   email: {
     required: true,
     type: String
@@ -15,7 +15,8 @@ const userSchema = new Schema({
   googleId: { type: String },
   facebookId: { type: String },
   address: String,
-  verified: { type: Boolean, default: false }
+  verified: { type: Boolean, default: false },
+  favorit:[favoritSchema]
 });
 
 userSchema.pre("save", function(next) {

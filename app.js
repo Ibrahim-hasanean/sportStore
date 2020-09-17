@@ -3,6 +3,8 @@ var express = require("express");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+let itemsRouter = require("./routes/items")
+const bodyParser = require("body-parser")
 var app = express();
 const cors = require("cors");
 const validate = require("./middleware/validator");
@@ -22,14 +24,15 @@ mongoose.connect(
 
 app.use(cors());
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
+app.use(bodyParser.json())
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1/", indexRouter);
 app.get("/test", (req, res) => {
   res.send("test success");
 });
 app.use("/api/v1/users", validate, usersRouter);
+app.use("/api/v1/", validate, itemsRouter);
 
 app.listen(port, () => {
   console.log("listen on 3000");

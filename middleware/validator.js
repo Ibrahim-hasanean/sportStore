@@ -32,20 +32,15 @@ async function validator(req, res, next) {
     req.headers["x-access-token"],
     process.env.JWT_KEY,
     async (err, decode) => {
-      if (err) next(err);
+      if (err) {
+        return res.status(401).json({status:401,message:"unauthurized"})
+      }
       let user = await User.findById(decode.userId);
-      console.log(user);
-      if (!user) {
-        res.status(400);
-        return res.json({ status: 400, message: "must sign up" });
-      } 
+      req.user=user;          
       // if (!user.verified) {
       //   res.status(400);
       //   return res.json({ status: 400, message: "email is not verified" });
       // }
-
-      if (!user) return res.json({ status: 400, message: "user not found" });
-      req.body.user = user;
       next();
     }
   );

@@ -47,7 +47,7 @@ forget password
     - get : https://sportstore1.herokuapp.com/api/v1/items
         - query :  
             - filter:  team,category,type,size 
-            - sort : sortBy , orderBy : (asc,desc) default desc
+            - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
         - return: {status:200,items}    
 
 - get one Item  by id

@@ -15,20 +15,20 @@ module.exports={
     },
     getItems:async(req,res,next)=>{
         let {team,category,type,size}=req.query; 
-        let query;
+        let query ={}
         if(team){
-            query[team]=team
+            query.team=team
         }
-        if(category) query[category]= category;
-        if(type) query[type] = type
-        if(size) query[size] = size            
+        if(category) query.category= category;
+        if(type) query.type = type
+        if(size) query.size = size            
         let {limit,skip} = req.query;      
         let {sortBy,orderBy}= req.query;    
         let sort = {};       
         if(sortBy){
-            sort[sortBy]=req.query.orderBy === 'asc' ? 1 : -1
+            sort[sortBy]= orderBy === 'asc' ? 1 : -1
         }               
-        let items = await Items.find({...query})
+        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit))
         return res.status(200).json({status:200,items})
     },
     getItemById:async(req,res,next)=>{

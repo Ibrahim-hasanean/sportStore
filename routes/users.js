@@ -7,9 +7,9 @@ router.get("/profile", function(req, res, next) {
   res.status(200);
   res.json({
     status: 200,    
-    email: req.body.user.email,
-    id: req.body.user._id,
-    name:req.body.name
+    email: req.user.email,
+    id: req.user._id,
+    name:req.user.name
   });
 });
 

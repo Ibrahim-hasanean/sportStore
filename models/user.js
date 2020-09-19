@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
-const favoritSchema = new Schema({itemId:String})
+const favoritSchema = new Schema({itemId:{type:mongoose.Types.ObjectId,unique:true}})
 const userSchema = new Schema({
   name: { type: String, require: true },
   email: {

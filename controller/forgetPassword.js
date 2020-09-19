@@ -54,7 +54,7 @@ module.exports = {
     if(!password)return res
     .status(400)
     .json({ status: 400, message: "password must provided" });
-    if (!password.length == 8)
+    if (password.length < 8)
       return res
         .status(400)
         .json({ status: 400, message: "password must be 8 character" });

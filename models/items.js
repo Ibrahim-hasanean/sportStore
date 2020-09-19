@@ -7,11 +7,12 @@ const itemSchema = new Schema({
     price:{type:Number,required:true},
     type:{type:String,required:true},   
     team:{type:String,required:true},
+    brand:{type:String},
     discount:{type:Number,max:1},
     userId:{type:String,required:true},
     img_url:{type:Number},
-    likesNumber:{type:Number,default:0}
-
+    likesNumber:{type:Number,default:0,min:0},
+    salesTimes:{type:Number,default:0}
 },{timestamps:true})
 let Item = mongoose.model("Items",itemSchema)
 

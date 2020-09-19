@@ -41,12 +41,12 @@ forget password
 
 - create item 
     - post : https://sportstore1.herokuapp.com/api/v1/items 
-        - body: {size,price,type,category,team,discount}
+        - body: {size,price,type,category,team,discount,brand}
         - return: {status:201,message:"item created",item}
 - get items 
     - get : https://sportstore1.herokuapp.com/api/v1/items
         - query :  
-            - filter:  team,category,type,size 
+            - filter:  team,category,type,size,brand 
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
         - return: {status:200,items}    
 
@@ -57,4 +57,15 @@ forget password
 - home page
     - get :   https://sportstore1.herokuapp.com/api/v1/items/home
     - return : {status:200,popular,new,sales}  
-               
+
+- add favorit to user: 
+    - post : localhost:4000/api/v1/favorite 
+    - body: itemId
+    - header : x-access-token:token
+    - return {status:200,message:"item added to favorite"}
+- get favorite to user 
+    - get : localhost:4000/api/v1/favorite 
+    - return : [favorites]
+- remove favorite from user : 
+    - delete : localhost:4000/api/v1/favorite 
+    - return : {status:200,message:"removed from favorite"}     

@@ -49,7 +49,12 @@ forget password
             - filter:  team,category,type,size,brand 
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
         - return: {status:200,items}    
-
+- popular items : 
+    - get : https://sportstore1.herokuapp.com/api/v1/items?sortBy=likesNumber
+        - query :  
+            - filter:  team,category,type,size,brand 
+            - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
+        - return: {status:200,items}    
 - get one Item  by id
     - get :  https://sportstore1.herokuapp.com/api/v1/items/:id
     - return:  {status:200,item}  

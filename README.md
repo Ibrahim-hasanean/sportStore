@@ -41,7 +41,7 @@ forget password
 
 - create item 
     - post : https://sportstore1.herokuapp.com/api/v1/items 
-        - body: {size,price,type,category,team,discount,brand}
+        - body: {size,price,type,category,team,discount,brand, photo with name "photo"}
         - return: {status:201,message:"item created",item}
 - get items 
     - get : https://sportstore1.herokuapp.com/api/v1/items
@@ -49,6 +49,8 @@ forget password
             - filter:  team,category,type,size,brand 
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
         - return: {status:200,items}    
+        - get image : 
+            - get request to https://sportstore1.herokuapp.com/imageURL
 - popular or new items : 
     - get : https://sportstore1.herokuapp.com/api/v1/items?sortBy=likesNumber or createdAt
         - query :  

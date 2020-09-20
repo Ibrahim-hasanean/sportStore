@@ -10,7 +10,7 @@ const itemSchema = new Schema({
     brand:{type:String},
     discount:{type:Number,max:1},
     userId:{type:String,required:true},
-    img_url:{type:Number},
+    imageURL:{type:String},
     likesNumber:{type:Number,default:0,min:0},
     salesTimes:{type:Number,default:0}
 },{timestamps:true})

@@ -8,9 +8,9 @@ module.exports={
             return res.status(400).json({status:400,message:"all fields required"})
         }
         let user = req.user;       
-        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,likesNumber,brand});        
+        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,likesNumber,brand,imageURL:req.file.path});        
         req.item=item;   
-        return res.status(201).json({status:201,message:"item created",item,file:req.file})
+        return res.status(201).json({status:201,message:"item created",item})
     },  
     getItems:async(req,res,next)=>{
         let {team,category,type,size,brand}=req.query; 

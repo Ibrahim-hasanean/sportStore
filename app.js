@@ -23,8 +23,11 @@ mongoose.connect(
 )
 app.use(logger("dev"));
 app.use(cors());
-app.use("/images",express.static("image"))
 app.use(bodyParser.json())
+//app.use("/images",express.static("image"))
+app.get("/images",(req,res,next)=>{
+  res.sendFile(__dirname + `/image/${req.body.image}`)
+})
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1/", indexRouter);

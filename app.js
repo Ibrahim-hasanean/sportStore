@@ -39,9 +39,6 @@ app.post('/upload',upload.single("photo"),async (req,res)=>{
    
   res.send("done")
 })
-
-
-//app.use("/images",express.static("image"))
 app.get("/images",(req,res,next)=>{
   res.sendFile(__dirname + `/image/${req.body.image}`)
 })

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const imagesSchema = new Schema({imageName:{type:String,default:"others"},imageURL:{type:String}})
+const imagesSchema = new Schema({imageURL:{type:String}})
 const itemSchema = new Schema({
     category:{type:String,required:true},
     size:{type:String,required:true},
@@ -11,7 +11,8 @@ const itemSchema = new Schema({
     brand:{type:String},
     discount:{type:Number,max:1},
     userId:{type:String,required:true},
-    imageURL:[imagesSchema],
+    mainImage:{type:String,required:true},
+    imagesURL:[imagesSchema],
     likesNumber:{type:Number,default:0,min:0},
     salesTimes:{type:Number,default:0},
     season:{type:String,default:0},    

@@ -8,10 +8,10 @@ module.exports={
             return res.status(400).json({status:400,message:"all fields required"})
         }      
         //console.log(req.files)
-       let imageURL = await firabseUpload(req.files)  
+       let {imagesURL,mainImage} = await firabseUpload(req.files)  
       // console.log(imageURL)           
         let user = req.user;       
-        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,brand,imageURL,gender,season});        
+        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,brand,imagesURL,mainImage,gender,season});        
         req.item=item;   
         return res.status(201).json({status:201,message:"item created",item})
     },  
@@ -34,7 +34,7 @@ module.exports={
         if(sortBy){
             sort[sortBy]= orderBy === 'asc' ? 1 : -1
         }               
-        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','imageURL'])  
+        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','imagesURL','mainImage'])  
                 
         items = items.map(item=>{
             let isFav; 
@@ -42,9 +42,8 @@ module.exports={
                 if(String(x.itemId) === String(item._id)) isFav = true;
                 else isFav = isFav || false
             })
-            console.log(item._id)    
-            item.imageURL=item.imageURL.filter(x=>x.imageName=="main")[0]                 
-           return {item,fav:isFav}
+            console.log(item._id)
+            return {item,fav:isFav}
         })
                 
         return res.status(200).json({status:200,items})
@@ -55,8 +54,8 @@ module.exports={
         return res.status(200).json({status:200,item})
     },
     home:async(req,res,next)=>{
-        let popularItems = await Items.find({},null,{sort:{"likesNumber":-1},limit:15}).select(['price','team','type','gender','season','imageURL','likesNumber'])
-        let newItems = await Items.find({},null,{sort:{"createdAt":-1},limit:15}).select(['price','team','type','gender','season','imageURL'])
+        let popularItems = await Items.find({},null,{sort:{"likesNumber":-1},limit:15}).select(['price','team','type','gender','season','imagesURL','mainImage','likesNumber'])
+        let newItems = await Items.find({},null,{sort:{"createdAt":-1},limit:15}).select(['price','team','type','gender','season','imagesURL','mainImage'])
         let sales=[]
         res.status(200).json({status:200,popular:popularItems,new:newItems,sales})
         },

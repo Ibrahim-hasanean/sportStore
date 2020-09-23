@@ -9,7 +9,7 @@ module.exports=async (files)=>{
     let images = await result.getSignedUrl({action: 'read', expires: "03-09-2491"})
     let imageURL = images[0]   
     console.log(imageURL)  
-    imagesURL.push({imageURL,imageName:"main"}); 
+   let mainImage = imageURL
     let others = files.photos
     for(let i=0;i<others.length;i++){
         let file = others[i];        
@@ -22,7 +22,7 @@ module.exports=async (files)=>{
         imagesURL.push({imageURL}); 
         } 
 console.log(imagesURL)
-return imagesURL      
+return {imagesURL,mainImage}      
 }
 
 //     files.forEach(async file=>{

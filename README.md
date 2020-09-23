@@ -41,31 +41,31 @@ forget password
 
 - create item 
     - post : https://sportstore1.herokuapp.com/api/v1/items 
-        - body: {size,price,type,category,team,discount,brand,gender,season, photo with name "photo"}
+        - body: {size,price,type,category,team,discount,brand,gender,season,main photo with name "main"  , photos with name "photos"}
         - return: {status:201,message:"item created",item}
 - get items 
     - get : https://sportstore1.herokuapp.com/api/v1/items
         - query :  
             - filter:  team,category,type,size,brand ,gender,season
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
-        - return: {status:200,items}    
-- get image : 
-    - get request to https://sportstore1.herokuapp.com/images
-        - body : image:"image name"
+        - return: {status:200,[{item:object,fav:boolean}]}  
+        - main image property  name :"mainImage":url  , other images :"imagesURL": [{imageURL}]
+
 - popular or new items : 
     - get : https://sportstore1.herokuapp.com/api/v1/items?sortBy=likesNumber or createdAt
         - query :  
             - filter:  team,category,type,size,brand 
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
-        - return: {status:200,items}    
+        - return: {status:200,items}  
+        - main image property  name :"mainImage":url  , other images :"imagesURL": [{imageURL}]  
 - get one Item  by id
     - get :  https://sportstore1.herokuapp.com/api/v1/items/:id
     - return:  {status:200,item}  
-
+    - main image property  name :"mainImage":url  , other images :"imagesURL": [{imageURL}]
 - home page
     - get :   https://sportstore1.herokuapp.com/api/v1/items/home
     - return : {status:200,popular,new,sales}  
-
+    - main image property  name :"mainImage":url  , other images :"imagesURL": [{imageURL}]
 - add favorit to user: 
     - post : localhost:4000/api/v1/favorite 
     - body: itemId

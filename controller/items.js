@@ -1,24 +1,30 @@
 const Items = require("../models/items");
-
+const admin = require("../config/firestore")
+const firabseUpload = require("../utils/firsbaseImageUpload");
 module.exports={
-    createItem:async(req,res,next)=>{
-        let {size,price,type,category,team,discount,likesNumber,brand}= req.body;
-        console.log(req.body)
-        if(!size || !price || !type || !category || !team || !brand){
+    createItem:async(req,res,next)=>{      
+        let {size,price,type,gender,category,team,discount,brand,season}= req.body;              
+        if(!size || !price || !type || !category || !team || !brand || !gender || !season){
             return res.status(400).json({status:400,message:"all fields required"})
-        }
+        }      
+        //console.log(req.files)
+       let imageURL = await firabseUpload(req.files)  
+      // console.log(imageURL)           
         let user = req.user;       
-        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,likesNumber,brand,imageURL:req.file.path});        
+        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,brand,imageURL,gender,season});        
         req.item=item;   
         return res.status(201).json({status:201,message:"item created",item})
     },  
     getItems:async(req,res,next)=>{
-        let {team,category,type,size,brand}=req.query; 
+        let {team,category,type,size,brand,gender,season}=req.query; 
         let query ={}
+        let userFav = req.user.favorit       
         if(team){
             query.team=team
         }
         if(category) query.category= category;
+        if(gender) query.gender= gender;
+        if(season) query.season= season;
         if(brand) query.brand= brand;
         if(type) query.type = type
         if(size) query.size = size            
@@ -28,7 +34,19 @@ module.exports={
         if(sortBy){
             sort[sortBy]= orderBy === 'asc' ? 1 : -1
         }               
-        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit))
+        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','imageURL'])  
+                
+        items = items.map(item=>{
+            let isFav; 
+            userFav.forEach(x=>{
+                if(String(x.itemId) === String(item._id)) isFav = true;
+                else isFav = isFav || false
+            })
+            console.log(item._id)    
+            item.imageURL=item.imageURL.filter(x=>x.imageName=="main")[0]                 
+           return {item,fav:isFav}
+        })
+                
         return res.status(200).json({status:200,items})
     },
     getItemById:async(req,res,next)=>{
@@ -37,8 +55,8 @@ module.exports={
         return res.status(200).json({status:200,item})
     },
     home:async(req,res,next)=>{
-        let popularItems = await Items.find({},null,{sort:{"likesNumber":-1},limit:15});
-        let newItems = await Items.find({},null,{sort:{"createdAt":-1},limit:15});
+        let popularItems = await Items.find({},null,{sort:{"likesNumber":-1},limit:15}).select(['price','team','type','gender','season','imageURL','likesNumber'])
+        let newItems = await Items.find({},null,{sort:{"createdAt":-1},limit:15}).select(['price','team','type','gender','season','imageURL'])
         let sales=[]
         res.status(200).json({status:200,popular:popularItems,new:newItems,sales})
         },
@@ -92,6 +110,10 @@ module.exports={
         user.favorit=filter;
         user.save()
         return res.status(200).json({status:200,message:"removed from favorite"})
+    },    
+    deleteItem:async(req,res)=>{
+        let {id} = req.params
+        await Items.deleteOne({_id:id})
+        res.send("item deleted")
     }
-
 }

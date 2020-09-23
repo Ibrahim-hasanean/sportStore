@@ -39,9 +39,11 @@ module.exports = {
     if (!user) {      
       return res.status(403).json({ status: 403, message: "user not found" });
     }
+    if(user.googleId) return res.status(400).json({ status: 400, message: "you loged in with gmail" });
+    if(user.facebookId) return res.status(400).json({ status: 400, message: "you loged in with facebook" });
     if(!req.body.password) return res.status(400).json({ status: 400, message: "password required" });
-    let isPass = bcrypt.compareSync(req.body.password, user.password);
-    console.log(isPass)
+    let isPass = bcrypt.compare(req.body.password, user.password);
+    console.log(user.password)
     if (!isPass) {
       console.log("wrong password")
       return res.status(400).json({ status: 400, message: "wrong password" });

@@ -5,6 +5,9 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 let itemsRouter = require("./routes/items")
 const bodyParser = require("body-parser")
+const upload = require("./middleware/uploadPhoto")
+const admin = require("./config/firestore")
+const googleStorage= require("@google-cloud/storage")
 var app = express();
 const cors = require("cors");
 const validate = require("./middleware/validator");
@@ -24,6 +27,20 @@ mongoose.connect(
 app.use(logger("dev"));
 app.use(cors());
 app.use(bodyParser.json())
+app.post('/upload',upload.single("photo"),async (req,res)=>{
+  console.log(req.file)
+  let fileName =Date.now().toString()+ req.file.originalname
+   let result =  await admin.storage().bucket().file(fileName)
+   await result.createWriteStream().end(req.files)  
+   let url = await result.getSignedUrl({action: 'read', expires: "2-2-3022",})
+   console.log(url)
+   //createWriteStream().end(req.file.buffer)
+ // console.log(url)
+   
+  res.send("done")
+})
+
+
 //app.use("/images",express.static("image"))
 app.get("/images",(req,res,next)=>{
   res.sendFile(__dirname + `/image/${req.body.image}`)

@@ -1,12 +1,11 @@
 var express = require("express");
 var Router = express.Router();
 let Items = require("../models/items")
-let {home,createItem,getItems,getItemById,addTofavorite,getFavorites,removeFavorite} = require("../controller/items")
-let upload = require("../middleware/uploadPhoto")
+let {home,getItems,getItemById,addTofavorite,getFavorites,removeFavorite} = require("../controller/items")
 
 
 Router.get("/items/home",home)
-Router.post("/items",upload.fields([{name:"main",maxCount:1},{name:"photos"}]),createItem) 
+
 //Router.post("/items",createItem)
 Router.get("/items",getItems)
 Router.get("/items/:id",getItemById)

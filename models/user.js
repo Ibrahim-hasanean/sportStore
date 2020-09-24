@@ -16,7 +16,8 @@ const userSchema = new Schema({
   facebookId: { type: String },
   address: String,
   verified: { type: Boolean, default: false },
-  favorit:[favoritSchema]
+  favorit:[favoritSchema],
+  isAdmin:{type:Boolean,default:false}
 });
 
 userSchema.pre("save", function(next) {

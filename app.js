@@ -9,6 +9,8 @@ const upload = require("./middleware/uploadPhoto")
 const admin = require("./config/firestore")
 const googleStorage= require("@google-cloud/storage")
 var app = express();
+const adminAuth= require("./middleware/adminAuth")
+const adminRoutes = require("./routes/admin")
 const cors = require("cors");
 const validate = require("./middleware/validator");
 const mongoose = require("mongoose");
@@ -42,15 +44,13 @@ app.post('/upload',upload.single("photo"),async (req,res)=>{
 app.get("/images",(req,res,next)=>{
   res.sendFile(__dirname + `/image/${req.body.image}`)
 })
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1/", indexRouter);
 app.get("/test", (req, res) => {
   res.send("test success");
 });
 app.use("/api/v1/users", validate, usersRouter);
 app.use("/api/v1/", validate, itemsRouter);
-
+app.use("/api/v1/admin",validate,adminAuth,adminRoutes)
 app.listen(port, () => {
   console.log("listen on 3000");
 });

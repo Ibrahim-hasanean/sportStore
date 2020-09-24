@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/user")
 const inputValidator = require("../middleware/inputValidator");
 const { signUp, verify, login } = require("../controller/index");
 const { facebookLogin, googleLogin } = require("../controller/socialLogin");

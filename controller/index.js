@@ -59,7 +59,8 @@ module.exports = {
       token: userToken,
       verified: user.verified,
       name:user.name,
-      email:user.email
+      email:user.email,
+      isAdmin:user.isAdmin
     });
   }
 };

@@ -26,7 +26,7 @@ async function validator(req, res, next) {
   console.log(req.headers["x-access-token"])
 
   if (!req.headers["x-access-token"])
-    return res.json({ status: 400, message: "token must be provided" });
+    return res.status(400).json({ status: 400, message: "token must be provided" });
 
   jwt.verify(
     req.headers["x-access-token"],
@@ -37,7 +37,7 @@ async function validator(req, res, next) {
       }
       let user = await User.findById(decode.userId);      
       req.user=user;  
-      //console.log(req.user)        
+      console.log(req.user)        
       // if (!user.verified) {
       //   res.status(400);
       //   return res.json({ status: 400, message: "email is not verified" });

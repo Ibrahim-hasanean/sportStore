@@ -40,7 +40,7 @@ forget password
 # Items apis 
 
 - create item 
-    - post : https://sportstore1.herokuapp.com/api/v1/items 
+    - post : https://sportstore1.herokuapp.com/api/v1/admin/items : just admin can create item
         - body: {size,price,type,category,team,discount,brand,gender,season,main photo with name "main"  , photos with name "photos"}
         - return: {status:201,message:"item created",item}
 - get items 

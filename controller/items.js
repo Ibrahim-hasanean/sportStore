@@ -4,9 +4,9 @@ const firabseUpload = require("../utils/firsbaseImageUpload");
 const isFavorit= require("../utils/getFavorite");
 module.exports={
     createItem:async(req,res,next)=>{ 
-        try{     
-        let {size,price,type,gender,category,team,discount,brand,season}= req.body;              
-        if(!size || !price || !type || !category || !team || !brand || !gender || !season){
+             
+        let {price,type,gender,category,team,discount,brand,season}= req.body;              
+        if( !price || !type || !category || !team || !brand || !gender || !season){
             return res.status(400).json({status:400,message:"all fields required"})
         }        
        let {imagesURL,mainImage} = await firabseUpload(req.files)                
@@ -16,14 +16,12 @@ module.exports={
         category=String(category).toLowerCase()   
         brand=String(brand).toLowerCase()   
         gender=String(gender).toLowerCase()
-        size=String(size).toLowerCase()
-        let item = await Items.create({size,price,type,category,team,discount,userId:user._id,brand,imagesURL,mainImage,gender,season});        
+               
+        let item = await Items.create({price,type,category,team,discount,userId:user._id,brand,imagesURL,mainImage,gender,season});        
         req.item=item;   
-        return res.status(201).json({status:201,message:"item created",item})}
-        catch(e){
-            return res.status(500).json({status:500,message:"upload images failed please try again"})
-        }
-        }
+        return res.status(201).json({status:201,message:"item created",item})
+    }   
+      
     ,  
     getItems:async(req,res,next)=>{
         let {team,category,type,size,brand,gender,season}=req.query; 
@@ -31,13 +29,14 @@ module.exports={
         let userFav = req.user.favorit       
         if(team){
             query.team= String(team).toLowerCase()
-        }
+        }        
         if(category) query.category= String(category).toLowerCase();
         if(gender) query.gender= String(gender).toLowerCase();
         if(season) query.season=  season
         if(brand) query.brand=  String(brand).toLowerCase();
         if(type) query.type =  String(type).toLowerCase()
-        if(size) query.size =  String(size).toLowerCase()            
+        if(size) query.size =  String(size).toLowerCase()  
+        console.log(query)          
         let {limit,skip} = req.query;      
         let {sortBy,orderBy}= req.query;    
         let sort = {};       
@@ -50,7 +49,7 @@ module.exports={
     },
     getItemById:async(req,res,next)=>{
         let id = req.params.id
-        let item = await Items.findById(id);
+        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL'])
         let userFav = req.user.favorit
         let isFav; 
         userFav.forEach(x=>{
@@ -61,13 +60,11 @@ module.exports={
     },
     home:async(req,res,next)=>{
         let userFav = req.user.favorit 
-        let {limit,skip} = req.query;
-        if(!limit) limit = 15;
-        if(!skip) skip=0;
+        let {limit,skip} = req.query;       
         let popularItems = await Items.find({},null,{sort:{"likesNumber":-1}})
-        .select(['price','team','type','gender','season','mainImage','likesNumber']).skip(Number(skip)).limit(Number(limit))
+        .select(['price','team','type','gender','season','mainImage','likesNumber']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})
-        .select(['price','team','type','gender','season','mainImage']).skip(Number(skip)).limit(Number(limit))
+        .select(['price','team','type','gender','season','mainImage']).limit(Number(limit))
         let sales=[]
         popularItems= isFavorit(popularItems,userFav);
         newItems= isFavorit(newItems,userFav);

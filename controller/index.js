@@ -49,9 +49,7 @@ module.exports = {
       return res.status(400).json({ status: 400, message: "wrong password" });
       //return res.status(401).s("wrong password");
     }
-    let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
-      expiresIn: "1h"
-    });
+    let userToken = jwt.sign({ userId: user._id }, process.env.JWT_KEY);
     console.log(process.env.JWT_KEY);   
     return res.status(200).json({
       status: 200,

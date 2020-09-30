@@ -64,7 +64,7 @@ module.exports={
         let popularItems = await Items.find({},null,{sort:{"likesNumber":-1}})
         .select(['price','team','type','gender','season','mainImage','likesNumber']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})
-        .select(['price','team','type','gender','season','mainImage']).limit(Number(limit))
+        .select(['price','team','type','gender','season','mainImage']).limit(Number(15))
         let sales=[]
         popularItems= isFavorit(popularItems,userFav);
         newItems= isFavorit(newItems,userFav);

@@ -49,7 +49,7 @@ module.exports={
     },
     getItemById:async(req,res,next)=>{
         let id = req.params.id
-        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL'])
+        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage'])
         let userFav = req.user.favorit
         let isFav; 
         userFav.forEach(x=>{

@@ -43,7 +43,7 @@ module.exports={
         if(sortBy){
             sort[sortBy]= orderBy === 'asc' ? 1 : -1
         }               
-        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','imagesURL','mainImage'])  
+        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})
     },

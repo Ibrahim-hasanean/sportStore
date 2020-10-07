@@ -60,8 +60,7 @@ module.exports={
         return res.status(200).json({status:200,item:returnedObj})
     },
     home:async(req,res,next)=>{
-        let userFav = req.user.favorit 
-        let {limit,skip} = req.query;       
+        let userFav = req.user.favorit;               
         let popularItems = await Items.find({},null,{sort:{"likesNumber":-1}})
         .select(['price','team','type','gender','season','mainImage','likesNumber','category']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})

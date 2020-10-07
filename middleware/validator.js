@@ -36,8 +36,7 @@ async function validator(req, res, next) {
         return res.status(401).json({status:401,message:"unauthurized"})
       }
       let user = await User.findById(decode.userId);      
-      req.user=user;  
-      console.log(req.user)        
+      req.user=user;              
       // if (!user.verified) {
       //   res.status(400);
       //   return res.json({ status: 400, message: "email is not verified" });

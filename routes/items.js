@@ -12,8 +12,8 @@ Router.get("/items/:id",getItemById)
 Router.post("/favorite",addTofavorite)
 Router.get("/favorite",getFavorites)   
 Router.delete("/favorite/:id",removeFavorite)
-Router.delete("/items",async(req,res)=>{
-    let result= await Items.deleteMany({});
+Router.delete("/items/:id",async(req,res)=>{
+    let result= await Items.deleteOne({_id:req.params.id})
     console.log(result)
     res.send("delete")
 })

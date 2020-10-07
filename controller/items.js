@@ -56,7 +56,8 @@ module.exports={
             if(String(x.itemId) === String(item._id)) isFav = true;
             else isFav = isFav || false
         })
-        return res.status(200).json({status:200,item,isFav})
+        let returnedObj = {...item._doc,fav:isFav}
+        return res.status(200).json({status:200,item:returnedObj})
     },
     home:async(req,res,next)=>{
         let userFav = req.user.favorit 

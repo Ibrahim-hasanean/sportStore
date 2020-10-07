@@ -6,7 +6,7 @@ module.exports= (items,userFav)=>{
             else isFav = isFav || false
         })
        
-        return {item,fav:isFav}
+        return {...item._doc,fav:isFav}
     })
     return items
 }

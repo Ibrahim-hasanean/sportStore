@@ -52,6 +52,9 @@ module.exports={
         let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage'])
         let userFav = req.user.favorit
         let isFav; 
+        if(userFav.length === 0 ){
+            return res.status(200).json({status:200,item:{...item._doc,fav:false}});
+        }    
         userFav.forEach(x=>{
             if(String(x.itemId) === String(item._id)) isFav = true;
             else isFav = isFav || false

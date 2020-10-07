@@ -62,9 +62,9 @@ module.exports={
         let userFav = req.user.favorit 
         let {limit,skip} = req.query;       
         let popularItems = await Items.find({},null,{sort:{"likesNumber":-1}})
-        .select(['price','team','type','gender','season','mainImage','likesNumber,category']).limit(Number(15))
+        .select(['price','team','type','gender','season','mainImage','likesNumber','category']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})
-        .select(['price','team','type','gender','season','mainImage,category']).limit(Number(15))
+        .select(['price','team','type','gender','season','mainImage','category']).limit(Number(15))
         let sales=[]
         popularItems= isFavorit(popularItems,userFav);
         newItems= isFavorit(newItems,userFav);

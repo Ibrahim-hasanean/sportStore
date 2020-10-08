@@ -15,8 +15,8 @@ module.exports = {
         .json({ status: 400, message: "email is not sing up" });
 
     let deletCode = await Code.findOneAndDelete({ userId: user._id }); //delete previous user code
-    let code = crypto({ length: 4 });
-    const sendCode = await sendMail(user, "forget password code");
+    let code = crypto({ length: 4 });  
+    const sendCode = await sendMail(user, "forget password code");    
     res
       .status(200)
       .json({ status: 200, message: "code is sent to your email" });

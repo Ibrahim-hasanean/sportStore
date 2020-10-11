@@ -42,25 +42,26 @@ module.exports={
             sort[sortBy]= orderBy === 'asc' ? 1 : -1
         }         
         if(search) {
-            let regex = new RegExp(String(search),"i")
+            search = String(search).trim();         
+            let regex = new RegExp(search,"i");       
             let items = await Items.find({ 
                 $or:[
                {team:regex} ,{category:regex},{season:regex},{brand:regex},{type:regex},{gender:regex}
                 ]
-            }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','brand'])  
+            }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','brand','category'])  
             items = isFavorit(items,userFav)  
             return res.status(200).json({status:200,items})
         }
         console.log(query)          
          
               
-        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage'])  
+        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})
     },
     getItemById:async(req,res,next)=>{
         let id = req.params.id
-        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage'])
+        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage','category'])
         let userFav = req.user.favorit
         let isFav; 
         if(userFav.length === 0 ){

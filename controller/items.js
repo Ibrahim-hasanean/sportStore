@@ -26,9 +26,11 @@ module.exports={
     getItems:async(req,res,next)=>{
         let {team,category,type,brand,gender,season,search}=req.query; 
         let query ={}
-        let userFav = req.user.favorit       
+        let userFav = req.user.favorit  
+             
         if(team){
-            String(query.team).toLowerCase()= String(team).toLowerCase();
+            console.log(String(team).toUpperCase())
+            query.team= String(team).toLowerCase();
         }        
         if(category) query.category= String(category).toLowerCase();
         if(gender) query.gender= String(gender).toLowerCase();

@@ -18,9 +18,12 @@ Router.delete("/items/:id",async(req,res)=>{
     res.send("delete")
 })
 Router.patch("/items",async(req,res)=>{
-    let itemupdated = await Items.updateMany({team:req.body.name},{
-        team:req.body.newNam
+    let items = await Items.find({});
+        items.forEach(item=>{
+            item.team= String(item.team).toLowerCase();
+            item.save()
         })
-        res.send(itemupdated)
+        let updatedItems = await Items.find({});
+        res.send(updatedItems)
 })
 module.exports= Router;

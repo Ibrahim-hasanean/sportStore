@@ -30,7 +30,7 @@ module.exports={
              
         if(team){
             console.log(String(team).toUpperCase())
-            query.team= team
+            query.team= String(team).toLowerCase()
         }        
         if(category) query.category= String(category).toLowerCase();
         if(gender) query.gender= String(gender).toLowerCase();

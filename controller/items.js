@@ -28,7 +28,7 @@ module.exports={
         let query ={}
         let userFav = req.user.favorit       
         if(team){
-            query.team= String(team).toLowerCase();
+            String(query.team).toLowerCase()= String(team).toLowerCase();
         }        
         if(category) query.category= String(category).toLowerCase();
         if(gender) query.gender= String(gender).toLowerCase();

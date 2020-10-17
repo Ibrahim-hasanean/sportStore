@@ -24,7 +24,7 @@ module.exports={
       
     ,  
     getItems:async(req,res,next)=>{
-        let {team,category,type,brand,gender,season,search}=req.query; 
+        let {team,category,type,brand,gender,season,search,price}=req.query; 
         let query ={}
         let userFav = req.user.favorit  
              
@@ -36,7 +36,8 @@ module.exports={
         if(gender) query.gender= String(gender).toLowerCase();
         if(season) query.season=  season
         if(brand) query.brand=  String(brand).toLowerCase();
-        if(type) query.type =  String(type).toLowerCase();        
+        if(type) query.type =  String(type).toLowerCase();   
+        if(price) query.price = price     
         let {limit,skip} = req.query;      
         let {sortBy,orderBy}= req.query;   
         let sort = {};       
@@ -48,15 +49,20 @@ module.exports={
             let regex = new RegExp(search,"i");       
             let items = await Items.find({ 
                 $or:[
-               {team:regex} ,{category:regex},{season:regex},{brand:regex},{type:regex},{gender:regex}
+               {$or:[{team:regex},{team}]}, 
+               {$or:[{category:regex},{category}]},
+               {$or:[{brand:regex},{brand}]}, 
+               {season:regex},                             
+               {type:regex},
+               {gender:regex},
+               {price}
                 ]
             }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','brand','category'])  
             items = isFavorit(items,userFav)  
             return res.status(200).json({status:200,items})
         }
-        console.log(query)          
-         
-              
+        console.log(query)   
+                       
         let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})

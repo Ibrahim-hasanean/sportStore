@@ -29,15 +29,15 @@ module.exports={
         let userFav = req.user.favorit  
         let maxPrice;
         let minPrice;
-        if(team){
+        if(team == true){
             console.log(String(team).toUpperCase())
             query.team= String(team).toLowerCase()
         }        
-        if(category) query.category= String(category).toLowerCase();
-        if(gender) query.gender= String(gender).toLowerCase();
-        if(season) query.season=  season
-        if(brand) query.brand=  String(brand).toLowerCase();
-        if(type) query.type =  String(type).toLowerCase();   
+        if(category == true) query.category= String(category).toLowerCase();
+        if(gender == true) query.gender= String(gender).toLowerCase();
+        if(season == true) query.season=  season
+        if(brand == true) query.brand=  String(brand).toLowerCase();
+        if(type == true) query.type =  String(type).toLowerCase();   
         if(price) {
             price = price.split("-");
             price = price.filter(x=> !isNaN(x))   

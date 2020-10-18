@@ -27,7 +27,8 @@ module.exports={
         let {team,category,type,brand,gender,season,search,price}=req.query; 
         let query ={}
         let userFav = req.user.favorit  
-             
+        let maxPrice;
+        let minPrice;
         if(team){
             console.log(String(team).toUpperCase())
             query.team= String(team).toLowerCase()
@@ -37,7 +38,13 @@ module.exports={
         if(season) query.season=  season
         if(brand) query.brand=  String(brand).toLowerCase();
         if(type) query.type =  String(type).toLowerCase();   
-        if(price) query.price = price     
+        if(price) {
+            price = price.split("-");
+            price = price.filter(x=> !isNaN(x))   
+            minPrice= price[0];
+            maxPrice= price[1] || price[0]
+            console.log(maxPrice,minPrice)         
+        }     
         let {limit,skip} = req.query;      
         let {sortBy,orderBy}= req.query;   
         let sort = {};       
@@ -61,9 +68,9 @@ module.exports={
             items = isFavorit(items,userFav)  
             return res.status(200).json({status:200,items})
         }
-        console.log(query)   
-                       
-        let items = await Items.find({...query}).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
+        console.log(query)                        
+        let items = await Items.find({...query,price:{$gte:minPrice,$lte:maxPrice}          
+        }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})
     },

@@ -29,21 +29,23 @@ module.exports={
         let userFav = req.user.favorit  
         let maxPrice;
         let minPrice;
-        if(team == true){
+        if(team){
             console.log(String(team).toUpperCase())
             query.team= String(team).toLowerCase()
         }        
-        if(category == true) query.category= String(category).toLowerCase();
-        if(gender == true) query.gender= String(gender).toLowerCase();
-        if(season == true) query.season=  season
-        if(brand == true) query.brand=  String(brand).toLowerCase();
-        if(type == true) query.type =  String(type).toLowerCase();   
+        if(category) query.category= String(category).toLowerCase();
+        if(gender) query.gender= String(gender).toLowerCase();
+        if(season) query.season=  season
+        if(brand) query.brand=  String(brand).toLowerCase();
+        if(type) query.type =  String(type).toLowerCase();   
         if(price) {
+            console.log(price)            
             price = price.split("-");
             price = price.filter(x=> !isNaN(x))   
             minPrice= price[0];
             maxPrice= price[1] || price[0]
-            console.log(maxPrice,minPrice)         
+            console.log(maxPrice,minPrice)  
+            query.price=  {$gte:minPrice,$lte:maxPrice}    
         }     
         let {limit,skip} = req.query;      
         let {sortBy,orderBy}= req.query;   
@@ -69,7 +71,7 @@ module.exports={
             return res.status(200).json({status:200,items})
         }
         console.log(query)                        
-        let items = await Items.find({...query,price:{$gte:minPrice,$lte:maxPrice}          
+        let items = await Items.find({...query         
         }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})

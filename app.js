@@ -3,7 +3,8 @@ var express = require("express");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-let itemsRouter = require("./routes/items")
+let itemsRouter = require("./routes/items");
+const paymentRoutes = require("./routes/payment")
 const bodyParser = require("body-parser")
 const upload = require("./middleware/uploadPhoto")
 const admin = require("./config/firestore")
@@ -51,6 +52,7 @@ app.get("/test", (req, res) => {
 app.use("/api/v1/users", validate, usersRouter);
 app.use("/api/v1/", validate, itemsRouter);
 app.use("/api/v1/admin",validate,adminAuth,adminRoutes)
+app.use("/api/v1/",validate,paymentRoutes)
 app.listen(port, () => {
   console.log("listen on 3000");
 });

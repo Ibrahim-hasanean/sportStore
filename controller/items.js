@@ -20,9 +20,7 @@ module.exports={
         let item = await Items.create({price,type,category,team,discount,userId:user._id,brand,imagesURL,mainImage,gender,season});        
         req.item=item;   
         return res.status(201).json({status:201,message:"item created",item})
-    }   
-      
-    ,  
+    },  
     getItems:async(req,res,next)=>{
         let {team,category,type,brand,gender,season,search,price}=req.query; 
         let query ={}
@@ -66,19 +64,19 @@ module.exports={
                {gender:regex},
                {price}
                 ]
-            }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','brand','category'])  
+            }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','brand','category','discount'])  
             items = isFavorit(items,userFav)  
             return res.status(200).json({status:200,items})
         }
         console.log(query)                        
         let items = await Items.find({...query         
-        }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category'])  
+        }).sort(sort).skip(Number(skip)).limit(Number(limit)).select(['price','team','type','gender','season','mainImage','category','discount'])  
         items = isFavorit(items,userFav)                       
         return res.status(200).json({status:200,items})
     },
     getItemById:async(req,res,next)=>{
         let id = req.params.id
-        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage','category'])
+        let item = await Items.findById(id).select(['price','team','type','gender','season','imagesURL','mainImage','category','discount'])
         let userFav = req.user.favorit
         let isFav; 
         if(userFav.length === 0 ){
@@ -94,9 +92,9 @@ module.exports={
     home:async(req,res,next)=>{
         let userFav = req.user.favorit;               
         let popularItems = await Items.find({},null,{sort:{"likesNumber":-1}})
-        .select(['price','team','type','gender','season','mainImage','likesNumber','category']).limit(Number(15))
+        .select(['price','team','type','gender','season','mainImage','likesNumber','category','discount']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})
-        .select(['price','team','type','gender','season','mainImage','category']).limit(Number(15))
+        .select(['price','team','type','gender','season','mainImage','category','discount']).limit(Number(15))
         let sales=[]
         popularItems= isFavorit(popularItems,userFav);
         newItems= isFavorit(newItems,userFav);

@@ -34,6 +34,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "redis": "^2.8.0",
+    "stripe": "^8.114.0",
     "util": "^0.12.1",
     "validator": "^12.2.0"
   }

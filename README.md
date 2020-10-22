@@ -72,8 +72,44 @@ forget password
     - header : x-access-token:token
     - return {status:200,message:"item added to favorite"}
 - get favorite to user 
-    - get : localhost:4000/api/v1/favorite 
+    - get :https://sportstore1.herokuapp.com/api/v1/favorite 
     - return : [favorites]
 - remove favorite from user : 
     - delete : localhost:4000/api/v1/favorite 
-    - return : {status:200,message:"removed from favorite"}     
+    - return : {status:200,message:"removed from favorite"}    
+
+
+# payments      
+
+    - payment user detailes 
+        - post : https://sportstore1.herokuapp.com/api/v1/payments/userDetailes 
+        - body : email,phoneNumber , fullName , country, city, state, pistolCode 
+        - response : {status:200, "userDetailes": {
+                                                    "_id": "5f913b08574f1a117c30283b",
+                                                    "userId": "5f7df87c65951300177e3719",
+                                                    "orderEamil": "paymentEmail@asad.com",
+                                                    "phone": "794646667",
+                                                    "fullName": "ibrahim",
+                                                    "country": "palestine",
+                                                    "state": "gaza",
+                                                    "city": "gaza",
+                                                    "pistolCode": "4566",
+                                                    "createdAt": "2020-10-22T07:55:52.216Z",
+                                                    "updatedAt": "2020-10-22T07:55:52.216Z",
+                                                
+                                                }}
+
+    - payment process : 
+        - post : https://sportstore1.herokuapp.com/api/v1/payments
+        - body : source: stripe token , items[{itemId,season,price,type,category,discount,season,team,mainImage,playerName,size}]
+        - response : {status:200,message:"payemnt successfull"}
+
+    - get user payments 
+        - get : https://sportstore1.herokuapp.com/api/v1/payments 
+        - response : {status:200,orders:[{orderObject}]}
+        - orderObject = {items:[{item}],chargeId,userId,totalAmount,orderUserDetailesId}
+
+    - get user payments 
+        - get : https://sportstore1.herokuapp.com/api/v1/payments/:id 
+        - response : {status:200,order:{orderObject}}
+        - orderObject = {items:[{item}],chargeId,userId,totalAmount,orderUserDetailesId}

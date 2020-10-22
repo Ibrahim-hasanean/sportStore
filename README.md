@@ -101,7 +101,7 @@ forget password
 
     - payment process : 
         - post : https://sportstore1.herokuapp.com/api/v1/payments
-        - body : source: stripe token , items[{itemId,season,price,type,category,discount,season,team,mainImage,playerName,size}]
+        - body : source: stripe token , items[{itemId,season,price,type,category,discount,season,team,mainImage,playerName,size}]     ,userDetailesId , amount:totalPrice
         - response : {status:200,message:"payemnt successfull"}
 
     - get user payments 

@@ -30,7 +30,7 @@ const orderUserDetailesSchema = new Schema({
         type:String,
         required:true
     },
-    pistalCode:{
+    postalCode:{
         type:String,
         required:true
     }, 

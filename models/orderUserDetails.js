@@ -30,7 +30,7 @@ const orderUserDetailesSchema = new Schema({
         type:String,
         required:true
     },
-    pistolCode:{
+    pistalCode:{
         type:String,
         required:true
     }, 

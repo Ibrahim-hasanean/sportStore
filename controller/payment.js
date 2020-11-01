@@ -5,11 +5,11 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const orderItemsCheck = require("../utils/orderItemsCheck")
 module.exports={
     createUserDetailes:async (req,res)=>{
-        let {email, phoneNumber,fullName,country,state,city,pistolCode} = req.body;
+        let {email, phoneNumber,fullName,country,state,city,pistalCode} = req.body;
         let {user} = req;       
         console.log(user)
         try {
-            let userDetailes = await orderUserDetailes.create({userId:user._id,orderEamil:email,phone:phoneNumber,fullName,country,state,city,pistolCode})
+            let userDetailes = await orderUserDetailes.create({userId:user._id,orderEamil:email,phone:phoneNumber,fullName,country,state,city,pistalCode})
             res.status(201).json({status:201,userDetailes})
         } catch (e) {
             console.log(e)

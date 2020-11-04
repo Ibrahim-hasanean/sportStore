@@ -19,7 +19,7 @@ const ordersSchema = new Schema({
         type:mongoose.Types.ObjectId, 
         required:true       
     },
-    chargeId:{
+    paymentIntentId:{
         type: String,   
         unique:true
     },

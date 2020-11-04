@@ -5,7 +5,7 @@ module.exports=async (items)=>{
         for(let i =0; i< items.length; i++){ 
             let getItem;
             try{     
-             getItem = await Items.findById(items[i].itemId)
+             getItem = await Items.findById(items[i]._id)
             }catch(e){
                 throw new Error("not all items avaliable")
             }
@@ -19,7 +19,7 @@ module.exports=async (items)=>{
         totalAmount = totalAmount + (items[i].price* itemDiscount * items[i].quantity);
         console.log(totalAmount)
         orderItems.push({
-            itemId:items[i].itemId,
+            itemId:items[i]._id,
             quantity:items[i].quantity,
             price:items[i].price,
             discount:items[i].discount,

@@ -4,7 +4,7 @@ const itemsSchema = new Schema({
         itemId:{type:mongoose.Types.ObjectId},
         quantity:{type:Number,required:true},
         price:{type:Number,required:true},
-        discount:{type:Number,required:true},
+        discount:{type:Number},
         season:{type:String},
         category:{type:String},
         type:{type:String},

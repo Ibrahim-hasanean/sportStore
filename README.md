@@ -101,7 +101,7 @@ forget password
 
     - payment process : 
         - post : https://sportstore1.herokuapp.com/api/v1/payments
-        - body : items[{_id:itemId,season,price,type,category,discount,season,team,mainImage,playerName,size}],userDetailesId , amount:clientSecret:"payment Intent client_secret"
+        - body : items[{_id:itemId,season,price,type,category,discount,season,team,mainImage,playerName,size,quantity:quantity}],userDetailesId , amount:clientSecret:"payment Intent client_secret"
         - response : {status:200,message:"payemnt successfull"}
 
     - get user payments 

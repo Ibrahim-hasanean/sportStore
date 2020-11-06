@@ -17,7 +17,8 @@ module.exports=async (items)=>{
            throw new Error("items data not true check price and discount")
         }            
         totalAmount = totalAmount + (items[i].price* itemDiscount * items[i].quantity);
-        console.log(totalAmount)
+        getItem.salesTimes = getItem.salesTimes +1;
+        getItem.save();
         orderItems.push({
             itemId:items[i]._id,
             quantity:items[i].quantity,

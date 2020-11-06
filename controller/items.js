@@ -95,11 +95,11 @@ module.exports={
         .select(['price','team','type','gender','season','mainImage','likesNumber','category','discount']).limit(Number(15))
         let newItems = await Items.find({},null,{sort:{"createdAt":-1}})
         .select(['price','team','type','gender','season','mainImage','category','discount']).limit(Number(15))
-        let sales=[]
+        let sales= await Items.find({},null,{sort:{"salesTimes":-1}})
+        .select(['price','team','type','gender','season','mainImage','likesNumber','category','discount']).limit(Number(15))
         popularItems= isFavorit(popularItems,userFav);
         newItems= isFavorit(newItems,userFav);
         sales= isFavorit(sales,userFav);
-
         res.status(200).json({status:200,popular:popularItems,new:newItems,sales})
         },
     addTofavorite:async(req,res,next)=>{

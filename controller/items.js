@@ -22,11 +22,21 @@ module.exports={
         return res.status(201).json({status:201,message:"item created",item})
     },  
     getItems:async(req,res,next)=>{
-        let {team,category,type,brand,gender,season,search,price}=req.query; 
+        let {team,category,type,brand,gender,season,search,price,wishList}=req.query; 
         let query ={}
         let userFav = req.user.favorit  
         let maxPrice;
         let minPrice;
+        if(wishList){
+            let userFavorit = req.user.favorit;          
+            let favoritItems =[] 
+            for(let i =0; i<userFavorit.length;i++){
+              let item = await Items.findById(userFavorit[i].itemId)
+              .select(['price','team','type','gender','season','mainImage','brand','category','discount']) 
+              if(item)  favoritItems.push(item);  
+            }     
+            return res.status(200).json({status:200,items:favoritItems})  
+        }
         if(team){
             console.log(String(team).toUpperCase())
             query.team= String(team).toLowerCase()

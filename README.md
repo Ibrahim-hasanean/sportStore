@@ -46,7 +46,7 @@ forget password
 - get items 
     - get : https://sportstore1.herokuapp.com/api/v1/items
         - query :  
-            - filter:  team,category,type,size,brand ,gender,season
+            - filter:  team,category,type,size,brand ,gender,season, wishList(Boolean)
             - sort : sortBy , orderBy : (asc,desc) default desc, limit, skip
         - return: {status:200,[{item:object,fav:boolean}]}  
         - main image property  name :"mainImage":url  , other images :"imagesURL": [{imageURL}]

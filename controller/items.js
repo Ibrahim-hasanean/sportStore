@@ -2,6 +2,8 @@ const Items = require("../models/items");
 const admin = require("../config/firestore")
 const firabseUpload = require("../utils/firsbaseImageUpload");
 const isFavorit= require("../utils/getFavorite");
+const Orders = require("../models/orders");
+const Order = require("../models/orders");
 module.exports={
     createItem:async(req,res,next)=>{ 
              
@@ -22,11 +24,16 @@ module.exports={
         return res.status(201).json({status:201,message:"item created",item})
     },  
     getItems:async(req,res,next)=>{
-        let {team,category,type,brand,gender,season,search,price,wishList}=req.query; 
+        let {team,category,type,brand,gender,season,search,price,wishList,orders}=req.query; 
         let query ={}
         let userFav = req.user.favorit  
         let maxPrice;
         let minPrice;
+        if(orders){
+            let userOrders = await Order.find({userId:req.user._id});
+            console.log(userOrders.items)
+            return res.status(200).json({status:200,items:userOrders})  
+        }
         if(wishList){
             let userFavorit = req.user.favorit;          
             let favoritItems =[] 

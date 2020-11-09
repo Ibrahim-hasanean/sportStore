@@ -35,6 +35,7 @@ module.exports={
               .select(['price','team','type','gender','season','mainImage','brand','category','discount']) 
               if(item)  favoritItems.push(item);  
             }     
+            favoritItems = isFavorit(favoritItems,userFavorit)
             return res.status(200).json({status:200,items:favoritItems})  
         }
         if(team){

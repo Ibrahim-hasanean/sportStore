@@ -6,13 +6,14 @@ const code = require("../models/code");
 const sendMail = require("../middleware/sendMail");
 module.exports = {
   signUp: async (req, res, next) => {
-    let cryptPassword = bcrypt.hashSync(req.body.password,10)
+    let cryptPassword =  bcrypt.hashSync(req.body.password,10)
+    console.log(cryptPassword)
     let createUser = await User.create({
       email: req.body.email,
-      password: cryptPassword,
+      password:req.body.password,
       name: req.body.name
     });
-    let sendCode = await sendMail(createUser, "email verification");
+    //let sendCode = await sendMail(createUser, "email verification");
     let userToken = jwt.sign({ userId: createUser._id }, process.env.JWT_KEY, {
       expiresIn: "1h"
     });
@@ -35,14 +36,14 @@ module.exports = {
     if (!validator.isEmail(req.body.email)) {      
       return res.status(400).json({ status: 400, message: "email is not valid" });
     }
-    let user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });    
     if (!user) {      
       return res.status(403).json({ status: 403, message: "user not found" });
     }
     if(user.googleId) return res.status(400).json({ status: 400, message: "you loged in with gmail" });
     if(user.facebookId) return res.status(400).json({ status: 400, message: "you loged in with facebook" });
     if(!req.body.password) return res.status(400).json({ status: 400, message: "password required" });
-    let isPass =await bcrypt.compare(req.body.password, user.password);
+    let isPass = bcrypt.compareSync(req.body.password, user.password);
     console.log(isPass)
     if (!isPass) {
       console.log("wrong password")
